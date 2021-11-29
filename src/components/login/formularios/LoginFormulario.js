@@ -4,6 +4,8 @@ import { Row, Col } from 'antd';
 
 import { Link } from 'react-router-dom';
 
+import "./LoginFormulario.css";
+
 
 export const LoginFormulario = () => {
     const onFinish = (values) => {
@@ -11,9 +13,8 @@ export const LoginFormulario = () => {
     };
 
     return (
-
-        <Row justify="center" align="middle">
-            <Col span={4}>
+        <Row className="formulario-login" justify="center" align="middle" >
+            <Col>
                 <Form
                     name="normal_login"
                     className="login-form"
@@ -26,12 +27,13 @@ export const LoginFormulario = () => {
                         name="username"
                         rules={[
                             {
+                                type: "email",
                                 required: true,
-                                message: 'Porfavor, ingrese su usuario!',
+                                message: 'Porfavor, ingrese su email!',
                             },
                         ]}
                     >
-                        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Usuario" />
+                        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
                     </Form.Item>
                     <Form.Item
                         name="password"
@@ -48,22 +50,31 @@ export const LoginFormulario = () => {
                             placeholder="Contraseña"
                         />
                     </Form.Item>
-                    <Form.Item>
-                        <Form.Item name="remember" valuePropName="checked" noStyle>
-                            <Checkbox>No soy un robot</Checkbox>
-                        </Form.Item>
+                    <Form.Item
+                        name="norobot"
+                        valuePropName="checked"
+                        rules={[
+                            {
+                                validator: (_, value) =>
+                                    value ? Promise.resolve() : Promise.reject(new Error('Debe marcar esta casilla')),
+                            },
+                        ]}
+                    >
+                        <Checkbox>
+                            No soy un robot
+                        </Checkbox>
                     </Form.Item>
 
                     <Form.Item>
                         <Button type="primary" htmlType="submit" className="login-form-button">
                             Ingresar
                         </Button>
-                        o <Link to="/register">Registrate ahora!</Link>
+                        o <Link to="/registro">Registrate ahora!</Link>
                     </Form.Item>
                 </Form>
             </Col>
-        </Row>
 
+        </Row>
 
     );
 }
