@@ -1,0 +1,8 @@
+.formulario-login {
+    padding: 0 1.5rem;
+    min-height: 85vh;
+}
+
+#normal_login .login-form-button {
+    width: 100%;
+}

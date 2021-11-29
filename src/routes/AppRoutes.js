@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { HomeGeneral } from '../components/home/general/HomeGeneral';
 import { LoginFormulario } from '../components/login/formularios/LoginFormulario';
+import { MascotaLista } from '../components/mascotas/listaMascotas/MascotaLista';
 import { RegistroFormulario } from '../components/registro/formularios/RegistroFormulario';
 
 
@@ -18,8 +19,12 @@ export const AppRoutes = () => {
                 <Content>
                     <Routes>
                         <Route path="/" element={<HomeGeneral />}></Route>
+
                         <Route path="/login" element={<LoginFormulario />}></Route>
                         <Route path="/registro" element={<RegistroFormulario />}></Route>
+
+                        <Route path="/mascotas" element={<MascotaLista />}></Route>
+
                         <Route path="/*" element={<HomeGeneral />}></Route>
                     </Routes>
                 </Content>
