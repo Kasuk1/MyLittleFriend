@@ -1,6 +1,5 @@
 import { Layout } from 'antd';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
 import { HomeGeneral } from '../components/home/general/HomeGeneral';
 import { LoginFormulario } from '../components/login/formularios/LoginFormulario';
 import { MascotaDetalle } from '../components/mascotas/detalleMascota/MascotaDetalle';
@@ -20,7 +19,6 @@ export const AppRoutes = () => {
 
                         <Route path="/login" element={<LoginFormulario />}></Route>
                         <Route path="/registro" element={<RegistroFormulario />}></Route>
-
                         <Route path="/mascotas" element={<MascotaLista />}></Route>
                         <Route path="/mascota/:mascotaId" element={<MascotaDetalle />}></Route>
 

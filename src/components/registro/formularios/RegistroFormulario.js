@@ -1,7 +1,6 @@
 import { Form, Input, Button, Checkbox, Upload } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { UploadOutlined } from '@ant-design/icons';
-
 import { Row, Col } from 'antd';
 import { beforeUpload, getBase64 } from '../../../util/functions/UploadImage';
 import { useState } from 'react';
