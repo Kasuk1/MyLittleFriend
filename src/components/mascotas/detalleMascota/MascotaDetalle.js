@@ -1,9 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { Card, Col, Row } from "antd";
 import { Table } from 'antd';
-
 import { MascotaDetalleModal } from "./MascotaDetalleModal";
-
 import { mascotas } from "../../../util/data/mascotas";
 
 const { Column } = Table;
