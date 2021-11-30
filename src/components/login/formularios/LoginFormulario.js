@@ -1,11 +1,9 @@
+import { Link } from 'react-router-dom';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Row, Col } from 'antd';
 
-import { Link } from 'react-router-dom';
-
 import "./LoginFormulario.css";
-
 
 export const LoginFormulario = () => {
     const onFinish = (values) => {
@@ -64,7 +62,6 @@ export const LoginFormulario = () => {
                             No soy un robot
                         </Checkbox>
                     </Form.Item>
-
                     <Form.Item>
                         <Button type="primary" htmlType="submit" className="login-form-button">
                             Ingresar
@@ -73,8 +70,6 @@ export const LoginFormulario = () => {
                     </Form.Item>
                 </Form>
             </Col>
-
         </Row>
-
     );
 }
