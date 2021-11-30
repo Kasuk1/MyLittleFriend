@@ -9,11 +9,9 @@ import { useState } from 'react';
 import "./RegistroFormulario.css";
 
 export const RegistroFormulario = () => {
-
     const [state, setState] = useState({
         loading: false,
     });
-
 
     /* UPLOAD IMAGE */
     const handleChange = info => {
@@ -41,8 +39,6 @@ export const RegistroFormulario = () => {
     );
     /* UPLOAD IMAGE */
 
-
-
     /* FORM VALIDATIONS */
     const onFinish = (values) => {
         console.log('Success:', values);
@@ -52,7 +48,6 @@ export const RegistroFormulario = () => {
         console.log('Failed:', errorInfo);
     };
     /* FORM VALIDATIONS */
-
 
     /* Responsiveness */
     const tailFormItemLayout = {
@@ -68,7 +63,6 @@ export const RegistroFormulario = () => {
         },
     };
     /* Responsiveness */
-
 
     const normFile = (e) => {
         console.log('Upload event:', e);
@@ -108,7 +102,6 @@ export const RegistroFormulario = () => {
                     >
                         <Input />
                     </Form.Item>
-
                     <Form.Item
                         label="Apellidos"
                         name="lastname"
@@ -121,7 +114,6 @@ export const RegistroFormulario = () => {
                     >
                         <Input />
                     </Form.Item>
-
                     <Form.Item
                         label="Email"
                         name="email"
@@ -134,7 +126,6 @@ export const RegistroFormulario = () => {
                     >
                         <Input />
                     </Form.Item>
-
                     <Form.Item
                         label="Dirección"
                         name="address"
@@ -147,7 +138,6 @@ export const RegistroFormulario = () => {
                     >
                         <Input />
                     </Form.Item>
-
                     <Form.Item
                         label="Contraseña"
                         name="password"
@@ -161,7 +151,6 @@ export const RegistroFormulario = () => {
                     >
                         <Input.Password />
                     </Form.Item>
-
                     <Form.Item
                         label="Confirmar Contraseña"
                         name="confirm"
@@ -184,7 +173,6 @@ export const RegistroFormulario = () => {
                     >
                         <Input.Password />
                     </Form.Item>
-
                     <Form.Item
                         label="Subir foto"
                         name="avatar"
@@ -201,7 +189,6 @@ export const RegistroFormulario = () => {
                             {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
                         </Upload>
                     </Form.Item>
-
                     <Form.Item
                         name="upload"
                         label="Upload"
@@ -213,8 +200,6 @@ export const RegistroFormulario = () => {
                             <Button icon={<UploadOutlined />}>Click to upload</Button>
                         </Upload>
                     </Form.Item>
-
-
                     <Form.Item
                         name="norobot"
                         valuePropName="checked"
@@ -230,7 +215,6 @@ export const RegistroFormulario = () => {
                             No soy un robot
                         </Checkbox>
                     </Form.Item>
-
                     <Form.Item {...tailFormItemLayout}>
                         <Button type="primary" htmlType="submit">
                             Registrar
@@ -239,7 +223,5 @@ export const RegistroFormulario = () => {
                 </Form>
             </Col>
         </Row>
-
-
     )
 }
