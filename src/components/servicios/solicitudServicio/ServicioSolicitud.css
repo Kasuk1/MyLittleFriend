@@ -1,8 +1,12 @@
-.formulario-login {
+.formulario {
     padding: 0 1.5rem;
     min-height: 85vh;
+    margin-top: 200px;
 }
 
-#normal_login .login-form-button {
-    width: 100%;
+.box{
+    position: relative;
+    padding-top: 100px;
+    
 }
+
