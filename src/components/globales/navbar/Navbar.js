@@ -1,12 +1,13 @@
-import Logo from './assets/Logo.png';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import Logo from '../../../assets/Logo.png';
+import { Layout, Menu } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 
 const { Header } = Layout;
 
 export const Navbar = () => {
   return (
     <Header
-      style={{ position: "fixed", zIndex: 1, width: "100%", height: "103px" }}>
+      style={{ position: "fixed", zIndex: 1, width: "100%", height: "100px", paddingTop:"10px" }}>
       <div className="logo" />
       <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
         <div className="menu-items">
@@ -15,7 +16,7 @@ export const Navbar = () => {
               classname="pet"
               src={Logo}
               alt="Logo"
-              style={{ height: "80px", objectFit: "cover" }}
+              style={{ height: "80px", objectFit: "cover",  }}
             />
             <Menu.Item key="1">Inicio</Menu.Item>
             <Menu.Item key="2">Productos</Menu.Item>
