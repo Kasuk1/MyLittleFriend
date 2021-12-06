@@ -1,13 +1,11 @@
 
 import {  } from '@ant-design/colors';
 import 'antd/dist/antd.css';
-import {Form, Row, Col, Select, Input, DatePicker, Button, Typography, Space} from 'antd'
-import { useState } from 'react/cjs/react.development';
+import {Form, Row, Col, Select, Input, DatePicker, Button, Typography} from 'antd'
 import locale from 'antd/es/date-picker/locale/es_ES';
 import './ServicioSolicitud.css'
 
 const {Item}= Form
-const {Password}= Input
 const {Title}= Typography
 
 export const ServicioSolicitud = () => {
