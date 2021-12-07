@@ -1,6 +1,6 @@
-import { FacebookOutlined, InstagramOutlined,PhoneOutlined } from '@ant-design/icons';
-import imagotipo from '../../../assets/imagotipo.png';
 import { Layout } from 'antd';
+import imagotipo from '../../../assets/imagotipo.png';
+import { FacebookOutlined, InstagramOutlined,PhoneOutlined } from '@ant-design/icons';
 
 
 const { Footer } = Layout;

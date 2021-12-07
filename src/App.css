@@ -15,13 +15,7 @@
   margin: 16px 0 16px 24px;
 }
 
-.menu-items{
-  display: flex;
-  justify-content:space-between;
-  align-items: center;
-  width: 100%;
-  font-size: 1.3rem;
-}
+
 
 .items{
   display: flex;

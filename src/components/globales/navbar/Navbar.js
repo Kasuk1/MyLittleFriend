@@ -1,6 +1,7 @@
+import { UserOutlined } from '@ant-design/icons';
 import Logo from '../../../assets/Logo.png';
 import { Layout, Menu } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+
 
 const { Header } = Layout;
 
