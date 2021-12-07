@@ -1,7 +1,17 @@
-import "./MascotaRegistro.css";
-import "antd/dist/antd.css";
 import React, { useState } from "react";
-import { Typography, Upload, Modal,Form, Input, Button, Select, DatePicker, Row, Col } from "antd";
+import "antd/dist/antd.css";
+import {
+  Typography,
+  Upload,
+  Modal,
+  Form,
+  Input,
+  Button,
+  Select,
+  DatePicker,
+  Row,
+  Col,
+} from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
 export const MascotaRegistro = () => {
@@ -59,17 +69,19 @@ export const MascotaRegistro = () => {
     previewVisible: false,
     previewImage: "",
     previewTitle: "",
-    fileList: [ {
-      uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-    {
-      uid: '-5',
-      name: 'image.png',
-      status: 'error',
-    }],
+    fileList: [
+      {
+        uid: "-1",
+        name: "image.png",
+        status: "done",
+        url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+      },
+      {
+        uid: "-5",
+        name: "image.png",
+        status: "error",
+      },
+    ],
   });
   const { previewVisible, previewImage, fileList, previewTitle } = images;
   const uploadButton = (
@@ -99,77 +111,71 @@ export const MascotaRegistro = () => {
     console.log(values);
   };
   return (
-  <Row justify="center" align="middle">
-  <Col>
-    <Form
-      {...layout}
-      name="registro-mascotas"
-      onFinish={onFinish}
-      validateMessages={validateMessages}
-    >
-      <Title level={2}>Registro de Mascosta</Title>
-      <Form.Item 
-      name="tipoMascota"
-      label="Tipo de mascota"
-      rules={[
-        {
-          required: true,
-        },
-      ]}
-      >
-        <Select>
-          <Select.Option value="Perro">Perro</Select.Option>
-        </Select>
-      </Form.Item>
-      <Form.Item
-        name="nombreMascota"
-        label="Nombre de la Mascosta"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item 
-      name="fechaNacimiento"
-      label="Fecha de Nacimiento"
-      >
-        <DatePicker />
-      </Form.Item>
-      <Form.Item name="Detalles" label="Detalles">
-        <Input.TextArea />
-      </Form.Item>
-      <Form.Item
-      {...tailLayout}
-      label="Subir Imagen"
-      >
-        <Upload
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          listType="picture-card"
-          fileList={fileList}
-          onPreview={handlePreview}
-          onChange={handleChange}
+    <Row justify="center" align="middle">
+      <Col>
+        <Form
+          {...layout}
+          name="registro-mascotas"
+          onFinish={onFinish}
+          validateMessages={validateMessages}
         >
-          {fileList.length >= 8 ? null : uploadButton}
-        </Upload>
-        <Modal
-          visible={previewVisible}
-          title={previewTitle}
-          footer={null}
-          onCancel={handleCancel}
-        >
-          <img alt="example" style={{ width: "100%" }} src={previewImage} />
-        </Modal>
-      </Form.Item>
-      <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit">
-          Registrar
-        </Button>
-      </Form.Item>
-    </Form>
-    </Col>
+          <Title level={2}>Registro de Mascosta</Title>
+          <Form.Item
+            name="tipoMascota"
+            label="Tipo de mascota"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Select>
+              <Select.Option value="Perro">Perro</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="nombreMascota"
+            label="Nombre de la Mascosta"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item name="fechaNacimiento" label="Fecha de Nacimiento">
+            <DatePicker />
+          </Form.Item>
+          <Form.Item name="Detalles" label="Detalles">
+            <Input.TextArea />
+          </Form.Item>
+          <Form.Item {...tailLayout} label="Subir Imagen">
+            <Upload
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}
+            >
+              {fileList.length >= 8 ? null : uploadButton}
+            </Upload>
+            <Modal
+              visible={previewVisible}
+              title={previewTitle}
+              footer={null}
+              onCancel={handleCancel}
+            >
+              <img alt="example" style={{ width: "100%" }} src={previewImage} />
+            </Modal>
+          </Form.Item>
+          <Form.Item {...tailLayout}>
+            <Button type="primary" htmlType="submit">
+              Registrar
+            </Button>
+          </Form.Item>
+        </Form>
+      </Col>
     </Row>
   );
 };
