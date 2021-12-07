@@ -1,39 +1,27 @@
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import "antd/dist/antd.css";
 import { Card, Col, Row, Button, Typography } from "antd";
-
-
 export const VeterinariasLista = () => {
   const { Meta } = Card;
   const { Title } = Typography;
-  const [veterinaria,setVeterinaria]= useState({
-    
-    fileList: [ {
-      name: 'Veterinaria Dago',
-      info: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-    {
-      name: 'Veterinaria Venci',
-      info: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    }]
-      
-    
-  })
-  useEffect(() => {
-    
-    return () => {
-      
-    }
-  })
-  
+  const [veterinaria, setVeterinaria] = useState({
+    fileList: [
+      {
+        name: "Veterinaria Dago",
+        info: "done",
+        url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+      },
+      {
+        name: "Veterinaria Venci",
+        info: "done",
+        url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+      },
+    ]});
   return (
     <>
-      <Title
-       level={2}
-       style={{ marginTop: "10px" }}
-       >Lista de Veterinarias</Title>
+      <Title level={2} style={{ marginTop: "10px" }}>
+        Lista de Veterinarias
+      </Title>
       <Row
         gutter={{ xs: 8, sm: 16, md: 24, lg: 48 }}
         style={{ marginTop: "10px" }}

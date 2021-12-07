@@ -1,5 +1,5 @@
 import "antd/dist/antd.css";
-import { Row, Col, Typography, Divider,Collapse, Input, Button } from "antd";
+import { Row, Col, Typography, Divider, Collapse, Input, Button } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
 
 export const Veterinaria = () => {
@@ -35,7 +35,7 @@ export const Veterinaria = () => {
         style={{ marginTop: "3em" }}
       >
         <Col className="gutter-row" span={20}>
-          <div >
+          <div>
             <Title level={2}>Ultimas Atenciones</Title>
             <Search
               placeholder="Buscar atenciones "
