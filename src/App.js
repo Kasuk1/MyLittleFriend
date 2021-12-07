@@ -1,10 +1,13 @@
-import { HomeGeneral } from './components/home/general/HomeGeneral.jsx'
+
+import 'antd/dist/antd.css';
+import './App.css';
+import { AppRoutes } from './routes/AppRoutes';
 
 function App() {
   return (
-    <>
-      <HomeGeneral />
-    </>
+    <div className="App">
+      <AppRoutes />
+    </div>
   );
 }
 
