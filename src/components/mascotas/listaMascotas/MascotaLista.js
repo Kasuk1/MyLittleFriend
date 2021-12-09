@@ -4,7 +4,7 @@ import { Mascota } from "../mascota/Mascota"
 
 export const MascotaLista = () => {
     return (
-        <Row justify="center" gutter={[20, 25]} style={{ padding: "5rem 0.5rem", marginLeft: 0, marginRight: 0 }}>
+        <Row justify="center" gutter={[20, 25]} style={{ padding: "7.5rem 0.5rem", marginLeft: 0, marginRight: 0 }}>
             <Col xs={22} md={13}>
                 <Row gutter={15}>
                     <Col flex="auto">

@@ -14,7 +14,7 @@ export const MascotaDetalle = () => {
     const { id, name, description, image, historial } = mascotas.find(mascota => mascota.id === Number(mascotaId));
 
     return (
-        <Row justify="center" gutter={[20, 25]} style={{ padding: "5rem 0.5rem", marginRight: 0, marginLeft: 0 }}>
+        <Row justify="center" gutter={[20, 25]} style={{ padding: "7.5rem 0.5rem", marginRight: 0, marginLeft: 0 }}>
             <Col xs={24} md={14}>
                 <Link to={-1}>Regresar</Link>
             </Col>
