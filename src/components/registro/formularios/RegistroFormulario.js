@@ -1,19 +1,47 @@
-import { Form, Input, Button, Checkbox, Upload } from 'antd';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { UploadOutlined } from '@ant-design/icons';
-import { Row, Col } from 'antd';
-import { beforeUpload, getBase64 } from '../../../util/functions/UploadImage';
 import { useState } from 'react';
-
+import { Row, Col, Form, Input, Button, Checkbox, Upload } from 'antd';
+import ImgCrop from "antd-img-crop";
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import "./RegistroFormulario.css";
+import { beforeUpload, getBase64 } from '../../../util/functions/UploadImage';
 
 export const RegistroFormulario = () => {
     const [state, setState] = useState({
-        loading: false,
+        loading: false
     });
+    const [fileList, setFileList] = useState([]);
 
     /* UPLOAD IMAGE */
-    const handleChange = info => {
+    const onChangeImage = ({ fileList: newFileList }) => {
+        setFileList(newFileList);
+    };
+
+    const onPreviewImage = async (file) => {
+        let src = file.url;
+        if (!src) {
+            src = await new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file.originFileObj);
+                reader.onload = () => resolve(reader.result);
+            });
+        }
+        const image = new Image();
+        image.src = src;
+        const imgWindow = window.open(src);
+        imgWindow.document.write(image.outerHTML);
+    };
+    /* UPLOAD IMAGE */
+
+    /* UPLOAD IMAGE 2 */
+    const { loading, imageUrl } = state;
+    const uploadButton = (
+        <div>
+            {loading ? <LoadingOutlined /> : <PlusOutlined />}
+            <div style={{ marginTop: 8 }}>Upload</div>
+        </div>
+    );
+
+    const handleImageChange = info => {
         if (info.file.status === 'uploading') {
             setState({ loading: true });
             return;
@@ -28,15 +56,7 @@ export const RegistroFormulario = () => {
             );
         }
     };
-
-    const { loading, imageUrl } = state;
-    const uploadButton = (
-        <div>
-            {loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div style={{ marginTop: 8 }}>Upload</div>
-        </div>
-    );
-    /* UPLOAD IMAGE */
+    /* UPLOAD IMAGE 2 */
 
     /* FORM VALIDATIONS */
     const onFinish = (values) => {
@@ -62,14 +82,6 @@ export const RegistroFormulario = () => {
         },
     };
     /* Responsiveness */
-
-    const normFile = (e) => {
-        console.log('Upload event:', e);
-        if (Array.isArray(e)) {
-            return e;
-        }
-        return e && e.fileList;
-    };
 
     return (
         <Row align="center" className="formulario-registro">
@@ -175,6 +187,34 @@ export const RegistroFormulario = () => {
                     <Form.Item
                         label="Subir foto"
                         name="avatar"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Porfavor, tiene que subir una imagen',
+                            },
+                        ]}
+                    >
+                        <ImgCrop rotate>
+                            <Upload
+                                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                listType="picture-card"
+                                fileList={fileList}
+                                onChange={onChangeImage}
+                                onPreview={onPreviewImage}
+                            >
+                                {fileList.length === 0 && "+ Upload"}
+                            </Upload>
+                        </ImgCrop>
+                    </Form.Item>
+                    <Form.Item
+                        label="Subir foto"
+                        name="avatar"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Porfavor, tiene que subir una imagen',
+                            },
+                        ]}
                     >
                         <Upload
                             name="avatar"
@@ -183,20 +223,9 @@ export const RegistroFormulario = () => {
                             showUploadList={false}
                             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                             beforeUpload={beforeUpload}
-                            onChange={handleChange}
+                            onChange={handleImageChange}
                         >
                             {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-                        </Upload>
-                    </Form.Item>
-                    <Form.Item
-                        name="upload"
-                        label="Upload"
-                        valuePropName="fileList"
-                        getValueFromEvent={normFile}
-                        extra=""
-                    >
-                        <Upload name="logo" action="/upload.do" listType="picture">
-                            <Button icon={<UploadOutlined />}>Click to upload</Button>
                         </Upload>
                     </Form.Item>
                     <Form.Item

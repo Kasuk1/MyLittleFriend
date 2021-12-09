@@ -1,3 +1,25 @@
+export const servicios = [
+    {
+        id: 1,
+        name: "Vacuna Sextuple",
+        description: "vacuna muy cara",
+        price: 890,
+        veterinarias: []
+    },
+    {
+        id: 2,
+        name: "Limpieza General",
+        description: "vacuna muy cara",
+        price: 900,
+        veterinarias: []
+    }
+]
+
+export const veterinarias = [
+    {},
+    {}
+]
+
 export const mascotas = [
     {
         id: 1,
