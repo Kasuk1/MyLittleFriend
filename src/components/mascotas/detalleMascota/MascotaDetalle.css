@@ -1,0 +1,18 @@
+.pet-detail__container {
+    background-color: var(--primary-color);
+}
+
+.pet-detail {
+    max-width: 140rem;
+    margin: 0 auto;
+    padding: 13rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.pet-detail__info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

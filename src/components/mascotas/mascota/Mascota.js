@@ -1,26 +1,24 @@
-import { useNavigate } from "react-router-dom";
-import { Card, Col } from "antd";
-
-const { Meta } = Card;
+import { useNavigate } from 'react-router-dom';
+import './Mascota.css';
 
 export const Mascota = ({ id, name, description, image }) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/mascota/${id}`)
+        navigate(`/pet/${id}`)
     }
 
     return (
-        <Col>
-            <Card
-                onClick={handleClick}
-                hoverable
-                style={{ width: "250px" }}
-                cover={<img src={image} alt="" style={{ width: "100%", height: "200px", objectFit: "cover" }} />}
-            >
-                <Meta title={name} description={description} />
-            </Card>
-        </Col>
+        <div
+            className='pet-card'
+            onClick={handleClick}
+        >
+            <img className='pet-card__image' src={image} alt='' />
+            <div className='pet-card__info'>
+                <h3 className='pet-card__name heading--3 color-primary'>{name}</h3>
+                <p className='pet-card__description paragraph'>{description}</p>
+            </div>
+        </div>
 
 
     );

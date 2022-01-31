@@ -1,181 +1,129 @@
 import React, { useState } from "react";
-import "antd/dist/antd.css";
-import {
-  Typography,
-  Upload,
-  Modal,
-  Form,
-  Input,
-  Button,
-  Select,
-  DatePicker,
-  Row,
-  Col,
-} from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Form, Input, Button, Select, DatePicker, Upload, } from "antd";
+import { UploadOutlined } from '@ant-design/icons';
+import './MascotaRegistro.css';
 
 export const MascotaRegistro = () => {
-  const { Title } = Typography;
-  const layout = {
-    labelCol: {
-      xs: {
-        span: 24,
-      },
-      sm: {
-        span: 12,
-      },
-    },
-    wrapperCol: {
-      xs: {
-        span: 24,
-      },
-      sm: {
-        span: 16,
-      },
-    },
+
+  /* const validateMessages = {
+    required: `${label} es requerido!`,
   };
-  const tailLayout = {
-    wrapperCol: {
-      xs: {
-        span: 24,
-        offset: 0,
-      },
-      sm: {
-        span: 16,
-        offset: 8,
-      },
-    },
+  const [fileList, setFileList] = useState([]);
+  const onChange = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
   };
-  /* eslint-disable no-template-curly-in-string */
-  const validateMessages = {
-    required: "${label} is required!",
-    types: {
-      email: "${label} is not a valid email!",
-      number: "${label} is not a valid number!",
-    },
-    number: {
-      range: "${label} must be between ${min} and ${max}",
-    },
-  };
-  const getBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  };
-  const [images, setImages] = useState({
-    previewVisible: false,
-    previewImage: "",
-    previewTitle: "",
-    fileList: [
-      {
-        uid: "-1",
-        name: "image.png",
-        status: "done",
-        url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      },
-      {
-        uid: "-5",
-        name: "image.png",
-        status: "error",
-      },
-    ],
-  });
-  const { previewVisible, previewImage, fileList, previewTitle } = images;
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  );
-  const handleCancel = () => {
-    setImages({ previewVisible: false });
-  };
-  const handlePreview = async (file) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
+  const onPreview = async (file) => {
+    let src = file.url;
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+        reader.onload = () => resolve(reader.result);
+      });
     }
-    setImages({
-      previewImage: file.url || file.preview,
-      previewVisible: true,
-      previewTitle:
-        file.name || file.url.substring(file.url.lastIndexOf("/") + 1),
-    });
-  };
-  const handleChange = ({ fileList }) => {
-    setImages({ fileList });
-  };
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow.document.write(image.outerHTML);
+  }; */
   const onFinish = (values) => {
     console.log(values);
   };
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
+  const normFile = (e) => {
+    console.log('Upload event:', e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
+
+
   return (
-    <Row justify="center" align="middle">
-      <Col>
-        <Form
-          {...layout}
-          name="registro-mascotas"
-          onFinish={onFinish}
-          validateMessages={validateMessages}
+    <div className='pet-register'>
+
+      <div className='pet-register__headers text-align-center mb-10'>
+        <h1 className="heading--1 color-tertiary">Registrar mascota!</h1>
+        <div className="horizonal-line mb-2">
+          <i className="fas fa-bone horizontal-line--icon"></i>
+        </div>
+        <p className='paragraph color-paragraph'>
+          Asegurate de llenar los campos requeridos en el formulario. Recuerda que mientras
+          mas completa sea la información, mejor será el control de tu mascota
+        </p>
+      </div>
+
+      <Form
+        className='pet-register__form'
+        name="pet-register"
+        initialValues={{
+          remember: true,
+        }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+      >
+        <Form.Item
+          name="type"
+          rules={[
+            {
+              required: true,
+              message: 'Porfavor selecciona el tipo de mascota a registrar!'
+            },
+          ]}
         >
-          <Title level={2}>Registro de Mascosta</Title>
-          <Form.Item
-            name="tipoMascota"
-            label="Tipo de mascota"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Select>
-              <Select.Option value="Perro">Perro</Select.Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="nombreMascota"
-            label="Nombre de la Mascosta"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item name="fechaNacimiento" label="Fecha de Nacimiento">
-            <DatePicker />
-          </Form.Item>
-          <Form.Item name="Detalles" label="Detalles">
-            <Input.TextArea />
-          </Form.Item>
-          <Form.Item {...tailLayout} label="Subir Imagen">
+          <Select placeholder='Tipo de mascota'>
+            <Select.Option value="dog">Perro</Select.Option>
+            <Select.Option value="cat">Gato</Select.Option>
+            <Select.Option value="rabbit">Conejo</Select.Option>
+            <Select.Option value="other">Otro</Select.Option>
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name="name"
+          rules={[
+            {
+              required: true,
+              message: 'El nombre es requerido!'
+            },
+          ]}
+        >
+          <Input placeholder="Nombre de la mascosta" />
+        </Form.Item>
+        <Form.Item name="birthdate">
+          <DatePicker style={{ width: '100%' }} placeholder="Fecha de nacimiento" />
+        </Form.Item>
+        <Form.Item name="detail">
+          <Input.TextArea placeholder="Descripción de la mascota" />
+        </Form.Item>
+        {/* <Form.Item name="pet-photos">
             <Upload
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              action=""
               listType="picture-card"
               fileList={fileList}
-              onPreview={handlePreview}
-              onChange={handleChange}
+              onChange={onChange}
+              onPreview={onPreview}
             >
-              {fileList.length >= 8 ? null : uploadButton}
+              {fileList.length < 2 && "+ Subir Foto"}
             </Upload>
-            <Modal
-              visible={previewVisible}
-              title={previewTitle}
-              footer={null}
-              onCancel={handleCancel}
-            >
-              <img alt="example" style={{ width: "100%" }} src={previewImage} />
-            </Modal>
-          </Form.Item>
-          <Form.Item {...tailLayout}>
-            <Button type="primary" htmlType="submit">
-              Registrar
-            </Button>
-          </Form.Item>
-        </Form>
-      </Col>
-    </Row>
+          </Form.Item> */}
+        <Form.Item
+          name="avatar_url"
+          valuePropName="fileList"
+          getValueFromEvent={normFile}
+          extra=""
+        >
+          <Upload name="logo" action="/upload.do" listType="picture">
+            <Button icon={<UploadOutlined />}>Subir foto de mascota</Button>
+          </Upload>
+        </Form.Item>
+
+        <button className='btn btn--secondary' type='submit'>Registrar</button>
+
+      </Form>
+    </div>
   );
 };
