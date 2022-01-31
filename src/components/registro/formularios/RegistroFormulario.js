@@ -1,41 +1,11 @@
-import { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Input, Button, Checkbox, Upload } from 'antd';
-import { LoadingOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
-import { beforeUpload, getBase64 } from '../../../util/functions/UploadImage';
+import { UploadOutlined } from '@ant-design/icons';
 
 import "./RegistroFormulario.css";
 
 export const RegistroFormulario = () => {
-    const [state, setState] = useState({
-        loading: false,
-    });
-
-    /* UPLOAD IMAGE */
-    const handleChange = info => {
-        if (info.file.status === 'uploading') {
-            setState({ loading: true });
-            return;
-        }
-        if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            getBase64(info.file.originFileObj, imageUrl =>
-                setState({
-                    imageUrl,
-                    loading: false,
-                }),
-            );
-        }
-    };
-
-    const { loading, imageUrl } = state;
-    const uploadButton = (
-        <div>
-            {loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div style={{ marginTop: 8 }}>Upload</div>
-        </div>
-    );
-    /* UPLOAD IMAGE */
 
     /* FORM VALIDATIONS */
     const onFinish = (values) => {

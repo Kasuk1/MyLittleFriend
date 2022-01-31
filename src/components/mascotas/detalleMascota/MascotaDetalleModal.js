@@ -1,13 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal } from 'antd'
 import './MascotaDetalleModal.css';
 
-export const MascotaDetalleModal = ({ nameButton, title, detalle }) => {
-    const [isModalVisible, setIsModalVisible] = useState(false);
-
-    const showModal = () => {
-        setIsModalVisible(true);
-    };
+export const MascotaDetalleModal = ({ nameButton, detalle }) => {
 
     const info = () => {
         Modal.info({

@@ -12,7 +12,7 @@ export const MascotaDetalle = () => {
 
     const { petId } = useParams();
 
-    const { id, name, description, image, historial } = mascotas.find(mascota => mascota.id === Number(petId));
+    const { name, description, image, historial } = mascotas.find(mascota => mascota.id === Number(petId));
 
     return (
         <div className='pet-detail__container'>
@@ -51,7 +51,6 @@ export const MascotaDetalle = () => {
                                 return (
                                     <MascotaDetalleModal
                                         nameButton="Ver más"
-                                        title="Detalle de servicio"
                                         detalle={detalleServicio}
                                     />)
                             }}

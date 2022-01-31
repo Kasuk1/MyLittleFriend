@@ -14,6 +14,7 @@ export const MyLittleFriendAPI = {
         });
         const json = await response.json();
         token = json.token;
+        console.log(token)
         return json;
     }
 }

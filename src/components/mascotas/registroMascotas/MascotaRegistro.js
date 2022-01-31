@@ -1,31 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Form, Input, Button, Select, DatePicker, Upload, } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
 import './MascotaRegistro.css';
 
 export const MascotaRegistro = () => {
 
-  /* const validateMessages = {
-    required: `${label} es requerido!`,
-  };
-  const [fileList, setFileList] = useState([]);
-  const onChange = ({ fileList: newFileList }) => {
-    setFileList(newFileList);
-  };
-  const onPreview = async (file) => {
-    let src = file.url;
-    if (!src) {
-      src = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj);
-        reader.onload = () => resolve(reader.result);
-      });
-    }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow.document.write(image.outerHTML);
-  }; */
   const onFinish = (values) => {
     console.log(values);
   };
@@ -99,17 +78,7 @@ export const MascotaRegistro = () => {
         <Form.Item name="detail">
           <Input.TextArea placeholder="Descripción de la mascota" />
         </Form.Item>
-        {/* <Form.Item name="pet-photos">
-            <Upload
-              action=""
-              listType="picture-card"
-              fileList={fileList}
-              onChange={onChange}
-              onPreview={onPreview}
-            >
-              {fileList.length < 2 && "+ Subir Foto"}
-            </Upload>
-          </Form.Item> */}
+
         <Form.Item
           name="avatar_url"
           valuePropName="fileList"
