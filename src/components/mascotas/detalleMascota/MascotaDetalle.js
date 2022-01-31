@@ -1,48 +1,65 @@
-import { Link, useParams } from "react-router-dom";
-import { Card, Col, Row } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
 import { Table } from 'antd';
 import { MascotaDetalleModal } from "./MascotaDetalleModal";
 import { mascotas } from "../../../util/data/mascotas";
+import './MascotaDetalle.css';
+import { LinkRegresar } from "../../globales/links/LinkRegresar/LinkRegresar";
 
 const { Column } = Table;
-const { Meta } = Card;
 
 export const MascotaDetalle = () => {
+    const navigate = useNavigate();
 
-    const { mascotaId } = useParams();
+    const { petId } = useParams();
 
-    const { id, name, description, image, historial } = mascotas.find(mascota => mascota.id === Number(mascotaId));
+    const { id, name, description, image, historial } = mascotas.find(mascota => mascota.id === Number(petId));
 
     return (
-        <Row justify="center" gutter={[20, 25]} style={{ padding: "7.5rem 0.5rem", marginRight: 0, marginLeft: 0 }}>
-            <Col xs={24} md={14}>
-                <Link to={-1}>Regresar</Link>
-            </Col>
-            <Col xs={24} md={14}>
-                <h2>Historial</h2>
-                <Card
-                    hoverable
-                    style={{ maxWidth: 450, minWidth: 200 }}
-                    cover={<img alt={name} src={image} />}
-                >
-                    <Meta title={name} />
-                </Card>
-            </Col>
-            <Col xs={24} md={14}>
-                <Table dataSource={historial}>
-                    <Column title="Fecha" dataIndex="date" key="date" responsive={['md']} />
-                    <Column title="Veterinaria" dataIndex="vet" key="vet" responsive={['sm']} />
-                    <Column title="Descripción" dataIndex="description" key="description" />
-                    <Column
-                        title="Detalle"
-                        key="detail"
-                        render={(text, record) => {
-                            const detalleServicio = historial.find(s => s.key === record.key);
-                            return <MascotaDetalleModal nameButton="Ver más" title="Detalle de servicio" detalle={detalleServicio} />
-                        }}
-                    />
-                </Table>
-            </Col>
-        </Row>
+        <div className='pet-detail__container'>
+            <div className='pet-detail'>
+                <LinkRegresar />
+                <div className='pet-detail__info'>
+                    <h2 className='heading--1 color-tertiary'>Historial de {name}</h2>
+                    <p className='paragraph color-paragraph mb-5'>
+                        A continuación puedes hacer seguimiento del historial de
+                        servicios que se le realizó a tu mascota.
+                    </p>
+                    <button
+                        className='btn btn--secondary mb-5'
+                        onClick={() => navigate('/service-request')}
+                    >
+                        Añadir servicio
+                    </button>
+                    <div className='pet-card'>
+                        <img className='pet-card__image' src={image} alt='' />
+                        <div className='pet-card__info'>
+                            <h2 className='pet-card__name heading--3 color-primary'>{name}</h2>
+                            <p className='pet-card__description paragraph'>{description}</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <Table dataSource={historial}>
+                        <Column title="Fecha" dataIndex="date" key="date" responsive={['md']} />
+                        <Column title="Veterinaria" dataIndex="vet" key="vet" responsive={['sm']} />
+                        <Column title="Descripción" dataIndex="description" key="description" />
+                        <Column
+                            title="Detalle"
+                            key="detail"
+                            render={(text, record) => {
+                                const detalleServicio = historial.find(s => s.key === record.key);
+                                return (
+                                    <MascotaDetalleModal
+                                        nameButton="Ver más"
+                                        title="Detalle de servicio"
+                                        detalle={detalleServicio}
+                                    />)
+                            }}
+                        />
+                    </Table>
+                </div>
+            </div>
+        </div>
+
     )
 }

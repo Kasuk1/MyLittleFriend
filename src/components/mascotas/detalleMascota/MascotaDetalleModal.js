@@ -1,5 +1,6 @@
-import { Button, Modal } from 'antd'
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { Modal } from 'antd'
+import './MascotaDetalleModal.css';
 
 export const MascotaDetalleModal = ({ nameButton, title, detalle }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -8,29 +9,35 @@ export const MascotaDetalleModal = ({ nameButton, title, detalle }) => {
         setIsModalVisible(true);
     };
 
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
+    const info = () => {
+        Modal.info({
+            title: 'Detalle de Servicio',
+            className: 'modal--info',
+            content: (
+                <div>
+                    <h3 className='heading--4'>Fecha</h3>
+                    <p className='paragraph'>{detalle.date}</p>
+                    <h3 className='heading--4'>Veterinaria</h3>
+                    <p className='paragraph'>{detalle.vet}</p>
+                    <h3 className='heading--4'>Descripción</h3>
+                    <p className='paragraph'>{detalle.description}</p>
+                    <h3 className='heading--4'>Medicamentos</h3>
+                    <ul>
+                        {detalle.medication.map(({ id, name, dose }) => (
+                            <li key={id}>{name} - {dose}</li>
+                        ))}
+                    </ul>
+                </div>
+            ),
+            onOk() { },
+        });
+    }
 
     return (
         <>
-            <Button type="primary" onClick={showModal}>
+            <button className="btn btn--tertiary" onClick={info}>
                 {nameButton}
-            </Button>
-            <Modal title={title} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <h3>Fecha</h3>
-                <p>{detalle.date}</p>
-                <h3>Veterinaria</h3>
-                <p>{detalle.vet}</p>
-                <h3>Descripción</h3>
-                <p>{detalle.description}</p>
-                <h3>Medicamentos</h3>
-                <ul>{detalle.medication.map(({ id, name, dose }) => <li key={id}>{name} - {dose}</li>)}</ul>
-            </Modal>
+            </button>
         </>
     )
 }

@@ -1,30 +1,51 @@
-import { UserOutlined } from '@ant-design/icons';
-import Logo from '../../../assets/Logo.png';
-import { Layout, Menu } from 'antd';
-
-const { Header } = Layout;
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './Navbar.css';
 
 export const Navbar = () => {
+    const [show, setShow] = useState(false);
+
+    const handelClickBars = () => {
+        setShow(!show);
+    }
+
+    const className = show ? 'navbar__item show' : 'navbar__item'
+
     return (
-        <Header
-            style={{ position: "fixed", zIndex: 1, width: "100%", height: "100px", paddingTop: "10px" }}>
-            <div className="logo" />
-            <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
-                <div className="menu-items">
-                    <div className="items">
-                        <img
-                            classname="pet"
-                            src={Logo}
-                            alt="Logo"
-                            style={{ height: "80px", objectFit: "cover", }}
-                        />
-                        <Menu.Item key="1">Inicio</Menu.Item>
-                        <Menu.Item key="2">Productos</Menu.Item>
-                        <Menu.Item key="3">Veterinarias</Menu.Item>
-                        <UserOutlined style={{ fontSize: "30px" }} />
+        <>
+            <nav className='navbar'>
+                <ul className='navbar__list'>
+                    <li className={className}><Link to='/services'>Servicios</Link></li>
+                    <li className={className}><Link to='/veterinaries'>Veterinarias</Link></li>
+                    <li className='navbar__item logo'>
+                        <Link to='/'>
+                            <i className="fas fa-paw navbar__logo"><span>MyLittleFriend</span></i>
+                        </Link>
+                    </li>
+                    <div className='navbar__social'>
+                        <li className={className}><a href='https://www.facebook.com/'>
+                            <i className="fab fa-facebook"></i>
+                        </a></li>
+                        <li className={className}><a href='https://www.google.com/'>
+                            <i className="fab fa-whatsapp"></i>
+                        </a></li>
+                        <li className={className}><a href='https://www.google.com/'>
+                            <i className="fab fa-instagram"></i>
+                        </a></li>
+
                     </div>
-                </div>
-            </Menu>
-        </Header>
+                    <li className={className}>
+                        <Link to='/login'>
+                            <i className="fas fa-sign-in-alt"></i>
+                        </Link>
+                    </li>
+
+                    <li className='navbar__item bars' onClick={handelClickBars}>
+                        <i className="fas fa-bars"></i>
+                    </li>
+                </ul>
+            </nav>
+        </>
+
     );
 };

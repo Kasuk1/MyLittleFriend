@@ -1,0 +1,41 @@
+.section__pets--container {
+    background-color: var(--primary-color);
+}
+
+.section__pets {
+    max-width: 140rem;
+    padding: 13rem 3.5rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10rem;
+}
+
+.section__pets--headers {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content:space-between;
+    gap: 3rem;
+}
+
+.section__pets--description {
+    max-width: 50rem;
+}
+.section__pets--title {
+}
+.section__pets--paragraph {
+}
+
+.section__pets--headers .btn {
+    min-width: 25rem;
+}
+
+.section__pets--list {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
