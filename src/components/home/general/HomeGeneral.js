@@ -3,9 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
 import heroDogImage from '../../../assets/heroDogImage.png';
-import welcomeDogImage from '../../../assets/welcomeDogImage.jpg';
-import welcomeCatImage from '../../../assets/welcomeCatImage.jpg';
-import cardImage from '../../../assets/cardImage.jpg';
 
 import { selectUser } from '../../../store/userSlice/user.slice';
 import "./HomeGeneral.css";
@@ -50,7 +47,10 @@ export const HomeGeneral = () => {
                 <section className="section__welcome">
                     <div className="section__welcome--image">
                         <img
-                            src={touch ? welcomeDogImage : welcomeCatImage}
+                            src={touch ?
+                                'https://images.unsplash.com/photo-1603232644140-bb47da511b92?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80'
+                                :
+                                'https://images.unsplash.com/photo-1536590158209-e9d615d525e4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80'}
                             onMouseEnter={() => setTouch(true)}
                             onMouseLeave={() => setTouch(false)}
                             alt='Hermosa mascota modelo'
@@ -87,7 +87,10 @@ export const HomeGeneral = () => {
                     </div>
                     <div className="cta--card">
                         <div className='cta--card__image'>
-                            <img src={cardImage} alt='' />
+                            <img
+                                src='https://images.unsplash.com/photo-1553550102-590bc483f15c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+                                alt=''
+                            />
                         </div>
                         <div className="cta--card__description">
                             <h2 className="cta--card__title heading--2">
