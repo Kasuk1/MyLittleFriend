@@ -53,7 +53,8 @@ export const Navbar = () => {
                                                         <img
                                                             className='user-avatar'
                                                             src={user.avatar_url}
-                                                            alt=''
+                                                            alt='avatar'
+                                                            id='avatar'
                                                         />
                                                     )
                                                         :
