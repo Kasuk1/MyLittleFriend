@@ -1,14 +1,18 @@
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 import heroDogImage from '../../../assets/heroDogImage.png';
 import welcomeDogImage from '../../../assets/welcomeDogImage.jpg';
 import welcomeCatImage from '../../../assets/welcomeCatImage.jpg';
 import cardImage from '../../../assets/cardImage.jpg';
+
+import { selectUser } from '../../../store/userSlice/user.slice';
 import "./HomeGeneral.css";
 
 export const HomeGeneral = () => {
     const navigate = useNavigate();
+    const user = useSelector(selectUser);
     const [touch, setTouch] = useState(false);
 
     return (
@@ -16,10 +20,25 @@ export const HomeGeneral = () => {
             <div className="section__hero--container">
                 <section className="section__hero">
                     <div className="section__hero--description">
-                        <h1 className='section__hero--title heading--1 mb-2'>Controla la salud y cuidado de tu mascota</h1>
+                        <h1 className='section__hero--title heading--1 mb-2'>
+                            Controla la salud y cuidado de tu mascota
+                        </h1>
                         <p className="section__hero--paragraph paragraph">Explora los diferentes centros de salud para animales
                             y ten un mayor contexto del cuidado de tu mascota.</p>
-                        <button className="btn btn--primary" onClick={() => navigate('/register')}>Registrarse</button>
+                        {user ?
+                            (
+                                <button className="btn btn--primary" onClick={() => navigate('/veterinaries')}>
+                                    Ver Veterinarias
+                                </button>
+                            )
+                            :
+                            (
+                                <button className="btn btn--primary" onClick={() => navigate('/register')}>
+                                    Registrarse
+                                </button>
+                            )
+                        }
+
                     </div>
                     <div className="section__hero--image">
                         <img src={heroDogImage} alt='' />
@@ -34,7 +53,7 @@ export const HomeGeneral = () => {
                             src={touch ? welcomeDogImage : welcomeCatImage}
                             onMouseEnter={() => setTouch(true)}
                             onMouseLeave={() => setTouch(false)}
-                            alt=''
+                            alt='Hermosa mascota modelo'
                         />
                     </div>
                     <div className="section__welcome--description">

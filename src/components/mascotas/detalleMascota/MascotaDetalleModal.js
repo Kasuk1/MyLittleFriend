@@ -23,8 +23,7 @@ export const MascotaDetalleModal = ({ nameButton, detalle }) => {
                         ))}
                     </ul>
                 </div>
-            ),
-            onOk() { },
+            )
         });
     }
 

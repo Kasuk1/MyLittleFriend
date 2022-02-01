@@ -20,10 +20,8 @@ export const MascotaRegistro = () => {
     return e && e.fileList;
   };
 
-
   return (
     <div className='pet-register'>
-
       <div className='pet-register__headers text-align-center mb-10'>
         <h1 className="heading--1 color-tertiary">Registrar mascota!</h1>
         <div className="horizonal-line mb-2">

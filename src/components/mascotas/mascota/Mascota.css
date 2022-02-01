@@ -20,10 +20,24 @@
 
 .pet-card__info {
     padding: 1.5rem 2rem 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
 }
+
 .pet-card__name {
-    
+    text-decoration: underline;
+    text-decoration-color: var(--tertiary-color);
+    padding-bottom: -0.5rem;
 }
-.pet-card__description {
-    
+
+.pet-card__type {
+    color: var(--tertiary-color);
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.pet-card__birthdate {
+    align-self: flex-end;
 }

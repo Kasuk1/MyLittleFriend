@@ -95,10 +95,5 @@ export const ServicioSolicitud = () => {
 
       </Form>
     </div>
-
-
-
-
-
   )
 }

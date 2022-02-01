@@ -1,0 +1,20 @@
+.user-mini-profile {
+    background-color: var(--secondary-color);
+    border-radius: 5rem;
+    padding: 0.4rem 0.4rem;
+    padding-right: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-mini-profile__avatar {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+}
+
+.user-mini-profile__name {
+    color: var(--white-color);
+    font-size: 1.5rem;
+}

@@ -1,9 +1,10 @@
+import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
-export const PublicRoutes = ({ children }) => {
-    const user = {
-        logged: false,
-    }
+import { selectUser } from "../store/userSlice/user.slice";
 
-    return user.logged ? <Navigate to='/' /> : children;
+export const PublicRoutes = ({ children }) => {
+    const user = useSelector(selectUser);
+
+    return user ? <Navigate to='/' /> : children;
 };

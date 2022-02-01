@@ -21,11 +21,10 @@
 }
 
 .section__pets--description {
-    max-width: 50rem;
-}
-.section__pets--title {
-}
-.section__pets--paragraph {
+    max-width: 60rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .section__pets--headers .btn {
