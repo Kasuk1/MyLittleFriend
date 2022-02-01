@@ -234,3 +234,12 @@ h1, h2, h3, h4, p {
 .gap-2 {
     gap: 2rem;
 }
+
+@keyframes opacityLoading {
+    from {
+        opacity: 0.5;
+    }
+    to {
+        opacity: 1;
+    }
+}

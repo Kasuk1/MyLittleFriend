@@ -2,8 +2,11 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { Table } from 'antd';
+
 import { MascotaDetalleModal } from "./MascotaDetalleModal";
 import { LinkRegresar } from "../../globales/links/LinkRegresar/LinkRegresar";
+import { PetDetailLoading } from "../../loading/PetDetailLoading/PetDetailLoading";
+
 import { getPetById, selectGetPetByIdState, selectPet } from "../../../store/petSlice/pet.slice";
 import './MascotaDetalle.css';
 
@@ -43,7 +46,7 @@ export const MascotaDetalle = () => {
                 <LinkRegresar />
                 {loading ?
                     (
-                        <h1>Loading Pet by Id...</h1>
+                        <PetDetailLoading />
                     )
                     :
                     pet &&

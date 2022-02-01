@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Mascota } from "../mascota/Mascota"
 import { UserMiniProfile } from "../../globales/mini/userMiniProfile/UserMiniProfile";
+import { PetListLoading } from "../../loading/PetListLoading/PetListLoading";
 
 import { getPets, selectGetPetsState, selectUser } from "../../../store/userSlice/user.slice";
 import './MascotaLista.css';
@@ -55,7 +56,7 @@ export const MascotaLista = () => {
                 {
                     loading ?
                         (
-                            <h1>Loading Pets...</h1>
+                            <PetListLoading />
                         )
                         :
                         (
