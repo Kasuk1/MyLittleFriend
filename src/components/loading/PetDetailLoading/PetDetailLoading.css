@@ -12,7 +12,7 @@
 }
 
 .pet-detail-loading__title {
-    background-color: rgba(170, 92, 219, 0.05);
+    background-color: var(--secondary-color);
     border-radius: 8rem;
     max-width: 43rem;
     min-width: 15rem;
@@ -21,7 +21,7 @@
 }
 
 .pet-detail-loading__subtitle {
-    background-color: rgba(170, 92, 219, 0.05);
+    background-color: var(--secondary-color);
     border-radius: 3rem;
     max-width: 50rem;
     min-width: 15rem;
