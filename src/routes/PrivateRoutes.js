@@ -6,6 +6,7 @@ import { MascotaDetalle } from "../components/mascotas/detalleMascota/MascotaDet
 import { MascotaLista } from "../components/mascotas/listaMascotas/MascotaLista";
 import { MascotaRegistro } from "../components/mascotas/registroMascotas/MascotaRegistro";
 import { ServicioSolicitud } from "../components/servicios/solicitudServicio/ServicioSolicitud";
+import { ServiceRequestGuard } from "./ServiceRequestGuard";
 
 import { selectUser } from "../store/userSlice/user.slice";
 
@@ -18,7 +19,12 @@ export const PrivateRoutes = () => {
             <Route path="/pets" element={<MascotaLista />}></Route>
             <Route path="/pet/:petId" element={<MascotaDetalle />}></Route>
             <Route path="/pet-register" element={<MascotaRegistro />}></Route>
-            <Route path="/service-request" element={<ServicioSolicitud />}></Route>
+            <Route path="/service-request" element={
+                <ServiceRequestGuard>
+                    <ServicioSolicitud />
+                </ServiceRequestGuard>
+            }>
+            </Route>
         </Routes>
     )
         :

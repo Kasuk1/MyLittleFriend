@@ -1,16 +1,26 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
 
 import heroDogImage from '../../../assets/heroDogImage.png';
 
-import { selectUser } from '../../../store/userSlice/user.slice';
+import { resetUserMethodsMessage, selectSignInState, selectUser } from '../../../store/userSlice/user.slice';
 import "./HomeGeneral.css";
 
 export const HomeGeneral = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector(selectUser);
+    const { status } = useSelector(selectSignInState);
     const [touch, setTouch] = useState(false);
+
+    useEffect(() => {
+        if (status === 'OK') {
+            setTimeout(() => {
+                dispatch(resetUserMethodsMessage('signInState'));
+            }, 3000)
+        }
+    }, [dispatch, status])
 
     return (
         <>
@@ -18,7 +28,16 @@ export const HomeGeneral = () => {
                 <section className="section__hero">
                     <div className="section__hero--description">
                         <h1 className='section__hero--title heading--1 mb-2'>
-                            Controla la salud y cuidado de tu mascota
+                            {status === 'OK' ?
+                                (
+                                    `Bienvenido otra vez ${user.full_name}`
+                                )
+                                :
+                                (
+                                    'Controla la salud y cuidado de tu mascota'
+                                )
+                            }
+
                         </h1>
                         <p className="section__hero--paragraph paragraph">Explora los diferentes centros de salud para animales
                             y ten un mayor contexto del cuidado de tu mascota.</p>

@@ -1,11 +1,22 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Servicio } from '../Servicio/Servicio';
-import { servicios } from '../../../util/data/servicios';
 
+import { Servicio } from '../Servicio/Servicio';
+
+import { getVeterinaries, selectGetVeterinariesState, selectVeterinaries } from '../../../store/veterinarySlice/veterinary.slice';
 import './ServiciosLista.css';
+import { useEffect } from 'react';
+import { CardListLoading } from '../../loading/CardListLoading/CardListLoading';
 
 export const ServiciosLista = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const veterinaries = useSelector(selectVeterinaries);
+    const { loading, message } = useSelector(selectGetVeterinariesState);
+
+    useEffect(() => {
+        dispatch(getVeterinaries());
+    }, [dispatch])
 
     return (
         <div className='section__services--container'>
@@ -28,9 +39,32 @@ export const ServiciosLista = () => {
                         Solicitar servicio
                     </button>
                 </div>
-                <div className='section__services--list'>
-                    {servicios.map(servicio => <Servicio key={servicio.id} {...servicio} />)}
-                </div>
+
+                {
+                    loading ?
+                        (
+                            <CardListLoading />
+                        )
+                        :
+                        veterinaries &&
+                        (
+                            <div className='section__services--list'>
+                                {message && <p>{message}</p>}
+                                {veterinaries?.map(veterinary => {
+                                    return veterinary.services?.map(service => (
+                                        <Servicio key={service._id} {...service} veterinary={veterinary.name} />
+                                    ))
+                                })}
+                                {!veterinaries.length && (
+                                    <h2 className='paragraph color-paragraph opacity-50'>
+                                        Aún no hay veterinarias registradas 🙄.
+                                        Trataremos de revertir esto lo mas pronto posible 😁.
+                                    </h2>
+                                )}
+                            </div>
+                        )
+                }
+
             </div>
         </div>
     )

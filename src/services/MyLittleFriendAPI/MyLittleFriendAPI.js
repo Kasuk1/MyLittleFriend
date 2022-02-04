@@ -4,6 +4,7 @@ const MLFURI = process.env.REACT_APP_MLF_API;
 let token = window.localStorage.getItem('token') || '';
 
 const headerPost = {
+    'Authorization': `Bearer ${token}`,
     'Content-Type': 'application/json'
 }
 const headerGet = {
@@ -12,10 +13,20 @@ const headerGet = {
 }
 
 export const MyLittleFriendAPI = {
-    /* USER REQUESTS */
-    async signIn({ email, password }) {
-        const data = { email, password };
-        const response = await fetch(`${process.env.REACT_APP_MLF_API}/auth/login`, {
+    //* USER REQUESTS */
+    async signUp(data) {
+        const response = await fetch(`${MLFURI}/customers`, {
+            method: 'POST',
+            headers: headerPost,
+            body: JSON.stringify(data)
+        });
+
+        const json = await response.json();
+        return json;
+    },
+
+    async signIn(data) {
+        const response = await fetch(`${MLFURI}/auth/login`, {
             method: 'POST',
             headers: headerPost,
             body: JSON.stringify(data)
@@ -29,6 +40,7 @@ export const MyLittleFriendAPI = {
         // a menos que se refresque la página ya que allí ya existe el token en el
         // localStorage.
         headerGet.Authorization = `Bearer ${user.data.token}`;
+        headerPost.Authorization = `Bearer ${user.data.token}`;
         return user;
     },
 
@@ -41,7 +53,7 @@ export const MyLittleFriendAPI = {
         return pets;
     },
 
-    /* PETS REQUESTS */
+    //* PETS REQUESTS */
     async getPetById(petId) {
         const response = await fetch(`${MLFURI}/pets/${petId}`, {
             method: 'GET',
@@ -49,5 +61,59 @@ export const MyLittleFriendAPI = {
         });
         const pet = await response.json();
         return pet;
+    },
+
+    async registerPet(data) {
+        let url;
+        if (data.avatar_url) {
+            const uploadImageResponse = await MyLittleFriendAPI.upladFile(data.avatar_url);
+            url = uploadImageResponse;
+        }
+
+        const response = await fetch(`${MLFURI}/pets`, {
+            method: 'POST',
+            headers: headerPost,
+            body: JSON.stringify({
+                ...data,
+                avatar_url: url
+            })
+        });
+        const json = await response.json();
+        return json;
+    },
+
+    //* VETERINARIES REQUESTS */
+    async getVeterinaries() {
+        const response = await fetch(`${MLFURI}/veterinaries`, {
+            method: 'GET',
+            headers: headerGet
+        });
+        const json = await response.json();
+        return json;
+    },
+
+    async getVeterinaryById(veterinaryId) {
+        const response = await fetch(`${MLFURI}/veterinaries/${veterinaryId}`, {
+            method: 'GET',
+            headers: headerGet
+        });
+        const json = await response.json();
+        return json;
+    },
+
+    //* UPLOAD FILES REQUESTS */
+    async upladFile(file) {
+        console.log(file)
+        const formData = new FormData();
+        formData.append('image', file);
+        console.log(formData)
+
+        const response = await fetch(`${MLFURI}/upload/file`, {
+            method: 'POST',
+            body: formData
+        });
+        const json = await response.json();
+        console.log(json)
+        return json;
     }
 }

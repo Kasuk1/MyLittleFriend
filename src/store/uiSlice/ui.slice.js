@@ -1,19 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-
-}
-
 export const uiSlice = createSlice({
     name: 'ui',
-    initialState,
-    reducers: {
-        setButton(state) {
-
-        }
+    initialState: {
+        showVeterinaryCardServices: false
     },
+    reducers: {
+        setShowVeterinaryCardServices(state) {
+            state.showVeterinaryCardServices = !state.showVeterinaryCardServices;
+        }
+    }
 })
 
-export const { setButton } = uiSlice.actions;
+export const { setShowVeterinaryCardServices } = uiSlice.actions;
+
+export const selectUiState = (state) => state.ui;
 
 export default uiSlice.reducer;

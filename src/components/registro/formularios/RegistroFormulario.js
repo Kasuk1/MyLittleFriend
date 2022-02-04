@@ -1,15 +1,22 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Form, Input, Button, Checkbox, Upload } from 'antd';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { Form, Input, Button, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import ReCAPTCHA from "react-google-recaptcha";
 
+import { resetUserMethodsMessage, selectSignUpState, signUp } from '../../../store/userSlice/user.slice';
 import "./RegistroFormulario.css";
+import { SpinLoading } from '../../loading/SpinLoading/SpinLoading';
 
 export const RegistroFormulario = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { loading, message, status } = useSelector(selectSignUpState);
 
     /* FORM VALIDATIONS */
-    const onFinish = (values) => {
-        console.log('Success:', values);
+    const handleFinish = (values) => {
+        dispatch(signUp(values));
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -25,6 +32,15 @@ export const RegistroFormulario = () => {
         return e && e.fileList;
     };
 
+    useEffect(() => {
+        if (status === 'OK') {
+            setTimeout(() => {
+                dispatch(resetUserMethodsMessage('signUpState'));
+                navigate('/');
+            }, 3500)
+        }
+    }, [dispatch, status, navigate])
+
     return (
         <div className="formulario-register">
             <div className='text-align-center mb-10'>
@@ -34,37 +50,31 @@ export const RegistroFormulario = () => {
                 </div>
                 <p className='paragraph color-paragraph'>Sé parte de una excelente comunidad. Estas a solo un par de pasos.</p>
             </div>
+
             <Form
-                className='register-form'
+                className='register-form position-relative'
                 name="user-register"
                 initialValues={{
                     remember: true,
                 }}
-                onFinish={onFinish}
+                onFinish={handleFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
             >
                 <Form.Item
-                    name="name"
+                    name="full_name"
                     rules={[
                         {
                             required: true,
-                            message: 'Porfavor, coloque un nombre!',
+                            message: 'Porfavor, coloque su nombre!',
                         },
-                    ]}
-                >
-                    <Input placeholder="Nombres" />
-                </Form.Item>
-                <Form.Item
-                    name="lastname"
-                    rules={[
                         {
-                            required: true,
-                            message: 'Porfavor, coloque un apellido!',
-                        },
+                            min: 3,
+                            message: 'Porfavor, su nombre debe tener 2 caracteres como mínimo'
+                        }
                     ]}
                 >
-                    <Input placeholder="Apellidos" />
+                    <Input placeholder="Nombre" />
                 </Form.Item>
                 <Form.Item
                     name="email"
@@ -105,13 +115,13 @@ export const RegistroFormulario = () => {
                     <Input.Password placeholder='Contraseña' />
                 </Form.Item>
                 <Form.Item
-                    name="confirm"
+                    name="confirm_password"
                     dependencies={['password']}
                     hasFeedback
                     rules={[
                         {
                             required: true,
-                            message: 'Porfavor, confirma tu contraseña!',
+                            message: 'Porfavor, confirme su contraseña!',
                         },
                         ({ getFieldValue }) => ({
                             validator(_, value) {
@@ -135,29 +145,36 @@ export const RegistroFormulario = () => {
                         <Button icon={<UploadOutlined />}>Subir foto de perfil</Button>
                     </Upload>
                 </Form.Item>
+
+                {loading ?
+                    (<SpinLoading text='Registrando usuario 🤖' />)
+                    :
+                    message &&
+                    (<p className='error-message mb-2'>{message}</p>)
+                }
+
                 <Form.Item
                     name="norobot"
                     valuePropName="checked"
                     rules={[
                         {
                             validator: (_, value) =>
-                                value ? Promise.resolve() : Promise.reject(new Error('Debe marcar esta casilla')),
+                                value ? Promise.resolve() : Promise.reject(new Error('Porfavor validar el captcha!')),
                         },
                     ]}
                 >
-                    <Checkbox>
-                        <span className='color-paragraph'>
-                            No soy un robot
-                        </span>
-                    </Checkbox>
+                    <ReCAPTCHA
+                        sitekey={process.env.REACT_APP_SITE_KEY_CAPTCHA}
+                        theme='light'
+                    />
                 </Form.Item>
+
                 <div className='register-form__actions'>
                     <button className="btn btn--secondary" type='submit'>
                         Registrar
                     </button>
                     <Link className='link-color-tertiary' to="/login">o Inicia sesión!</Link>
                 </div>
-
             </Form>
         </div>
     )

@@ -20,3 +20,11 @@
 .pet-register__form .btn {
     max-width: 20rem;
 }
+
+.ant-upload-list-item-name {
+    color: var(--paragraph-color);
+}
+
+.ant-upload-list-item-card-actions-btn svg {
+    color: red;
+}

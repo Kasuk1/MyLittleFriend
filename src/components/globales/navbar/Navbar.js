@@ -29,13 +29,13 @@ export const Navbar = () => {
                     </li>
                     <div className='navbar__social'>
                         <li className={className}><a href='https://www.facebook.com/' target='_blank' rel='noreferrer'>
-                            <i className="fab fa-facebook"></i>
+                            <i className="fab fa-facebook" style={{ color: '#5292F2' }}></i>
                         </a></li>
                         <li className={className}><a href='https://www.whatsapp.com/' target='_blank' rel='noreferrer'>
-                            <i className="fab fa-whatsapp"></i>
+                            <i className="fab fa-whatsapp" style={{ color: '#C0DEAB' }}></i>
                         </a></li>
                         <li className={className}><a href='https://www.instagram.com/' target='_blank' rel='noreferrer'>
-                            <i className="fab fa-instagram"></i>
+                            <i className="fab fa-instagram" style={{ color: '#CA0875' }}></i>
                         </a></li>
                     </div>
 
@@ -64,14 +64,14 @@ export const Navbar = () => {
                                             </Link>
                                             <span className='divider'> | </span>
                                             <Link to='/login' onClick={() => dispatch(logout())}>
-                                                <i className="fas fa-sign-out-alt"></i>
+                                                <i className="fas fa-sign-out-alt" style={{ color: '#EC3B51' }}></i>
                                             </Link>
                                         </>
                                     )
                                     :
                                     (
                                         <Link to='/login'>
-                                            <i className="fas fa-sign-in-alt"></i>
+                                            <i className="fas fa-sign-in-alt" style={{ color: '#14A651' }}></i>
                                         </Link>
                                     )
                             }

@@ -4,11 +4,10 @@ import { useNavigate } from "react-router-dom";
 
 import { Mascota } from "../mascota/Mascota"
 import { UserMiniProfile } from "../../globales/mini/userMiniProfile/UserMiniProfile";
-import { PetListLoading } from "../../loading/PetListLoading/PetListLoading";
+import { CardListLoading } from "../../loading/CardListLoading/CardListLoading";
 
 import { getPets, selectGetPetsState, selectUser } from "../../../store/userSlice/user.slice";
 import './MascotaLista.css';
-
 
 export const MascotaLista = () => {
     const dispatch = useDispatch();
@@ -56,15 +55,23 @@ export const MascotaLista = () => {
                 {
                     loading ?
                         (
-                            <PetListLoading />
+                            <CardListLoading />
                         )
                         :
+                        pets &&
                         (
                             <div className='section__pets--list'>
                                 {message && <p>{message}</p>}
                                 {pets?.map(pet => <Mascota key={pet._id} {...pet} />)}
+                                {!pets.length && (
+                                    <h2 className='paragraph color-paragraph opacity-50'>
+                                        Aún no tienes pets en tu perfil 🙄.
+                                        Agrega desde el botón Agregar Mascota allí arriba 😁.
+                                    </h2>
+                                )}
                             </div>
                         )
+
                 }
 
             </section>

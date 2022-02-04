@@ -20,7 +20,7 @@ export const Mascota = ({ _id, name, detail, avatar_url, birthdate, type, owner 
             />
             <div className='pet-card__info'>
                 <h3 className='pet-card__name heading--3 color-primary'>{name}</h3>
-                <p className='pet-card__description paragraph'>{detail}</p>
+                <p className='pet-card__description paragraph'>{detail ? detail : 'Sin descripción'}</p>
             </div>
         </div>
     );

@@ -17,14 +17,6 @@ export const MascotaDetalle = () => {
     const navigate = useNavigate();
     const { petId } = useParams();
     const pet = useSelector(selectPet);
-    const {
-        name,
-        avatar_url,
-        detail,
-        birthdate,
-        type,
-        medical_history,
-    } = pet;
     const { loading } = useSelector(selectGetPetByIdState);
 
     const renderBirthdate = (birthdate) => {
@@ -53,7 +45,7 @@ export const MascotaDetalle = () => {
                     (
                         <>
                             <div className='pet-detail__info'>
-                                <h2 className='heading--1 color-tertiary'>Historial de {name}</h2>
+                                <h2 className='heading--1 color-tertiary'>Historial de {pet.name}</h2>
                                 <p className='paragraph color-paragraph mb-5'>
                                     A continuación puedes hacer seguimiento del historial de
                                     servicios que se le realizó a tu mascota.
@@ -67,27 +59,27 @@ export const MascotaDetalle = () => {
                                 <div className='pet-card'>
                                     <img
                                         className='pet-card__image'
-                                        src={avatar_url ? avatar_url : 'https://images.unsplash.com/photo-1488290518759-5747f87b653f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'}
-                                        alt={`${name} Pet`}
+                                        src={pet.avatar_url ? pet.avatar_url : 'https://images.unsplash.com/photo-1488290518759-5747f87b653f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'}
+                                        alt={`${pet.name} Pet`}
                                     />
                                     <div className='pet-card__info'>
                                         <div>
                                             <h2 className='pet-card__name heading--3 color-primary'>
-                                                {name}
+                                                {pet.name}
                                             </h2>
-                                            <span className='pet-card__type'>{type}</span>
+                                            <span className='pet-card__type'>{pet.type}</span>
                                         </div>
                                         <p className='pet-card__description paragraph'>
-                                            {detail}
+                                            {pet.detail ? pet.detail : 'Sin descripción'}
                                         </p>
                                         <span className='pet-card__birthdate'>
-                                            {renderBirthdate(birthdate)}
+                                            {pet.birthdate ? renderBirthdate(pet.birthdate) : 'Sin fecha de nacimiento'}
                                         </span>
                                     </div>
                                 </div>
                             </div>
                             <div>
-                                <Table dataSource={medical_history}>
+                                <Table dataSource={pet.medical_history}>
                                     <Column title="Fecha" dataIndex="date" key="date" responsive={['md']} />
                                     <Column title="Veterinaria" dataIndex="vet" key="vet" responsive={['sm']} />
                                     <Column title="Descripción" dataIndex="description" key="description" />
@@ -95,7 +87,7 @@ export const MascotaDetalle = () => {
                                         title="Detalle"
                                         key="detail"
                                         render={(text, record) => {
-                                            const detalleServicio = medical_history?.find(s => s.key === record.key);
+                                            const detalleServicio = pet.medical_history?.find(s => s.key === record.key);
                                             return (
                                                 <MascotaDetalleModal
                                                     nameButton="Ver más"

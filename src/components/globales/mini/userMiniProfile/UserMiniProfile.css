@@ -8,6 +8,11 @@
     gap: 1rem;
 }
 
+.user-mini-profile .fas {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 4rem;
+}
+
 .user-mini-profile__avatar {
     width: 3.5rem;
     height: 3.5rem;

@@ -1,22 +1,46 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Select, DatePicker, Upload, } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
+
+import { SpinLoading } from "../../loading/SpinLoading/SpinLoading";
+
+import { selectUser } from "../../../store/userSlice/user.slice";
+import { registerPet, resetPetMethodsMessage, selectRegisterPetState } from "../../../store/petSlice/pet.slice";
 import './MascotaRegistro.css';
 
 export const MascotaRegistro = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { id: owner } = useSelector(selectUser);
+  const { loading, message, status } = useSelector(selectRegisterPetState);
 
-  const onFinish = (values) => {
-    console.log(values);
-  };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
 
-  const normFile = (e) => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-      return e;
+  const onFinish = (values) => {
+    const data = {
+      ...values,
+      owner,
+      avatar_url: values.avatar_url ? values.avatar_url[0] : null
+    };
+    console.log(data)
+    dispatch(registerPet(data));
+  };
+
+  useEffect(() => {
+    if (status === 'OK') {
+      setTimeout(() => {
+        dispatch(resetPetMethodsMessage('registerPetState'));
+        navigate(-1);
+      }, 2000);
     }
+  }, [dispatch, status, navigate])
+
+  const normFile = (e) => {
+    console.log(e)
     return e && e.fileList;
   };
 
@@ -34,7 +58,7 @@ export const MascotaRegistro = () => {
       </div>
 
       <Form
-        className='pet-register__form'
+        className='pet-register__form position-relative'
         name="pet-register"
         initialValues={{
           remember: true,
@@ -56,6 +80,8 @@ export const MascotaRegistro = () => {
             <Select.Option value="dog">Perro</Select.Option>
             <Select.Option value="cat">Gato</Select.Option>
             <Select.Option value="rabbit">Conejo</Select.Option>
+            <Select.Option value="hamster">Hamster</Select.Option>
+            <Select.Option value="bird">Ave</Select.Option>
             <Select.Option value="other">Otro</Select.Option>
           </Select>
         </Form.Item>
@@ -81,12 +107,28 @@ export const MascotaRegistro = () => {
           name="avatar_url"
           valuePropName="fileList"
           getValueFromEvent={normFile}
-          extra=""
         >
-          <Upload name="logo" action="/upload.do" listType="picture">
-            <Button icon={<UploadOutlined />}>Subir foto de mascota</Button>
+          <Upload
+            name="logo"
+            listType="picture"
+            maxCount={1}
+            accept=".png,.jpeg,.jpg"
+            beforeUpload={(file) => {
+              console.log(file)
+              return false;
+            }}
+          >
+            <Button icon={<UploadOutlined />}>Click to upload</Button>
           </Upload>
         </Form.Item>
+        {/*  */}
+
+        {loading ?
+          (<SpinLoading text='Registrando mascota 🐾' />)
+          :
+          message &&
+          (<p className='error-message mb-2'>{message}</p>)
+        }
 
         <button className='btn btn--secondary' type='submit'>Registrar</button>
 

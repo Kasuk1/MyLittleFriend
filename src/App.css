@@ -71,7 +71,7 @@ h1, h2, h3, h4, p {
 }
 .heading--4 {
     font-family: 'Inter', sans-serif;
-    font-size: 1.7rem;
+    font-size: 1.85rem;
     font-weight: 700;
     margin: 0;
 }
@@ -89,7 +89,7 @@ h1, h2, h3, h4, p {
     }
     .heading--3 {
         font-family: 'Inter', sans-serif;
-        font-size: 3rem;
+        font-size: 2.4rem;
         font-weight: 700;
     }
 }
@@ -134,7 +134,19 @@ h1, h2, h3, h4, p {
     max-width: 140rem;
     margin: 0 auto;
 }
+.opacity-50 {
+    opacity: 0.5;
+}
+.opacity-80 {
+    opacity: 0.8;
+}
 
+/** --------------------------------------  */
+.position-relative {
+    position: relative;
+}
+
+/** --------------------------------------  */
 .link-color-tertiary {
     color: var(--tertiary-color);
 }
@@ -152,10 +164,12 @@ h1, h2, h3, h4, p {
     color: var(--paragraph-color);
 }
 
+/** --------------------------------------  */
 .text-align-center {
     text-align: center;
 }
 
+/** --------------------------------------  */
 .mt-2 {
     margin-top: 2rem;
 }
@@ -186,6 +200,7 @@ h1, h2, h3, h4, p {
     margin-right: 10rem;
 }
 
+/** --------------------------------------  */
 .horizonal-line {
     position: relative;
     width: 100%;
@@ -219,11 +234,51 @@ h1, h2, h3, h4, p {
     right: 0;
 }
 
+.spin-loading {
+    border-radius: 0.8rem;
+    color: var(--white-color);
+    font-weight: 600;
+    position: absolute;
+    top: -4rem;
+    left: -1.5rem;
+    background-color: rgba(9, 11, 26, 0.8);
+    width: 110%;
+    height: 130%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.error-message {
+    background-color: hsl(277, 33%, 25%);
+    border-radius: 0.5rem;
+    color: var(--white-color);
+    padding: 1rem 2rem;
+}
+
+/** --------------------------------------  */
 .display-flex {
     display: flex;
 }
+.flex-column {
+    flex-direction: column;
+}
+.justify-content-center {
+    justify-content: center;
+}
+.justify-content-between {
+    justify-content: space-between;
+}
 .align-items-center {
     align-items: center;
+}
+.align-self-flex-start {
+    align-self: flex-start;
+}
+.align-self-flex-end {
+    align-self: flex-end;
 }
 .flex-wrap {
     flex-wrap: wrap;
