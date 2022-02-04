@@ -37,7 +37,8 @@ export const userSlice = createSlice({
         getPetsState: {
             loading: false,
             error: false,
-            message: ''
+            message: '',
+            status: ''
         }
     },
     reducers: {
@@ -118,6 +119,12 @@ export const userSlice = createSlice({
                     state.getPetsState.loading = false;
                     state.getPetsState.error = false;
                     console.log(action.payload)
+
+                    if (action.payload.status === 'Failed') {
+                        state.getPetsState.message = 'Los pets no puedieron ser listados. Porfavor intente otra vez 😔.';
+                        state.getPetsState.status = 'Failed'
+                        return;
+                    }
                     state.user.pets = action.payload.data;
                 })
                 .addCase(getPets.rejected, (state, action) => {

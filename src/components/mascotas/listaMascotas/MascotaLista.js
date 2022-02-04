@@ -17,6 +17,8 @@ export const MascotaLista = () => {
     const pets = user.pets;
     const { loading, message } = useSelector(selectGetPetsState);
 
+    console.log(pets)
+
     useEffect(() => {
         dispatch(getPets(userId));
     }, [dispatch, userId]);
@@ -61,7 +63,6 @@ export const MascotaLista = () => {
                         pets &&
                         (
                             <div className='section__pets--list'>
-                                {message && <p>{message}</p>}
                                 {pets?.map(pet => <Mascota key={pet._id} {...pet} />)}
                                 {!pets.length && (
                                     <h2 className='paragraph color-paragraph opacity-50'>
@@ -73,6 +74,8 @@ export const MascotaLista = () => {
                         )
 
                 }
+                {message && <p className='paragraph color-paragraph opacity-50'>{message}</p>}
+
 
             </section>
         </div>
