@@ -62,7 +62,7 @@ export const MascotaLista = () => {
                         (
                             <div className='section__pets--list'>
                                 {message && <p>{message}</p>}
-                                {pets?.map(pet => <Mascota key={pet._id} {...pet} />)}
+                                {pets.map(pet => <Mascota key={pet._id} {...pet} />)}
                                 {!pets.length && (
                                     <h2 className='paragraph color-paragraph opacity-50'>
                                         Aún no tienes pets en tu perfil 🙄.
