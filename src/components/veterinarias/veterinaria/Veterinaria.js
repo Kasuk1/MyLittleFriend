@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectUiState, setShowVeterinaryCardServices } from '../../../store/uiSlice/ui.slice';
 import './Veterinaria.css';
 
 export const Veterinaria = ({ _id, name, detail, location, avatar_url, services }) => {
   const [showServices, setShowServices] = useState(false);
-
-
 
   return (
     <div className="veterinarie-card">
