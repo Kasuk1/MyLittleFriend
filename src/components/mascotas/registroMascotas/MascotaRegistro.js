@@ -9,6 +9,7 @@ import { SpinLoading } from "../../loading/SpinLoading/SpinLoading";
 import { selectUser } from "../../../store/userSlice/user.slice";
 import { registerPet, resetPetMethodsMessage, selectRegisterPetState } from "../../../store/petSlice/pet.slice";
 import './MascotaRegistro.css';
+import { ButtonRegresar } from "../../globales/buttons/ButtonRegresar/ButtonRegresar";
 
 export const MascotaRegistro = () => {
   const dispatch = useDispatch();
@@ -16,17 +17,18 @@ export const MascotaRegistro = () => {
   const { id: owner } = useSelector(selectUser);
   const { loading, message, status } = useSelector(selectRegisterPetState);
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
-
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
+    let avatar_url;
+    if (values.avatar_url) {
+      if (values.avatar_url.status !== 'removed') {
+        avatar_url = values.avatar_url;
+      }
+    }
     const data = {
       ...values,
       owner,
-      avatar_url: values.avatar_url ? values.avatar_url[0] : null
+      avatar_url
     };
-    console.log(data)
     dispatch(registerPet(data));
   };
 
@@ -40,8 +42,10 @@ export const MascotaRegistro = () => {
   }, [dispatch, status, navigate])
 
   const normFile = (e) => {
-    console.log(e)
-    return e && e.fileList;
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.file;
   };
 
   return (
@@ -64,7 +68,6 @@ export const MascotaRegistro = () => {
           remember: true,
         }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
         <Form.Item
@@ -105,23 +108,20 @@ export const MascotaRegistro = () => {
 
         <Form.Item
           name="avatar_url"
-          valuePropName="fileList"
+          valuePropName="file"
           getValueFromEvent={normFile}
         >
           <Upload
-            name="logo"
             listType="picture"
             maxCount={1}
             accept=".png,.jpeg,.jpg"
             beforeUpload={(file) => {
-              console.log(file)
               return false;
             }}
           >
-            <Button icon={<UploadOutlined />}>Click to upload</Button>
+            <Button icon={<UploadOutlined />}>Subir imagen de mascota</Button>
           </Upload>
         </Form.Item>
-        {/*  */}
 
         {loading ?
           (<SpinLoading text='Registrando mascota 🐾' />)
@@ -130,7 +130,10 @@ export const MascotaRegistro = () => {
           (<p className='error-message mb-2'>{message}</p>)
         }
 
-        <button className='btn btn--secondary' type='submit'>Registrar</button>
+        <div className='display-flex gap-2 flex-wrap justify-content-center mt-5'>
+          <button className='btn btn--secondary' type='submit'>Registrar</button>
+          <ButtonRegresar />
+        </div>
 
       </Form>
     </div>

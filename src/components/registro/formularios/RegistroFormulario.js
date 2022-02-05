@@ -15,31 +15,37 @@ export const RegistroFormulario = () => {
     const { loading, message, status } = useSelector(selectSignUpState);
 
     /* FORM VALIDATIONS */
-    const handleFinish = (values) => {
-        dispatch(signUp(values));
-    };
-
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+    const onFinish = (values) => {
+        let avatar_url;
+        if (values.avatar_url) {
+            if (values.avatar_url.status !== 'removed') {
+                avatar_url = values.avatar_url;
+            }
+        }
+        const data = {
+            ...values,
+            avatar_url
+        };
+        console.log(data)
+        dispatch(signUp(data));
     };
     /* FORM VALIDATIONS */
-
-    const normFile = (e) => {
-        console.log('Upload event:', e);
-        if (Array.isArray(e)) {
-            return e;
-        }
-        return e && e.fileList;
-    };
 
     useEffect(() => {
         if (status === 'OK') {
             setTimeout(() => {
                 dispatch(resetUserMethodsMessage('signUpState'));
-                navigate('/');
+                navigate('/login');
             }, 3500)
         }
-    }, [dispatch, status, navigate])
+    }, [dispatch, status, navigate]);
+
+    const normFile = (e) => {
+        if (Array.isArray(e)) {
+            return e;
+        }
+        return e && e.file;
+    };
 
     return (
         <div className="formulario-register">
@@ -57,8 +63,7 @@ export const RegistroFormulario = () => {
                 initialValues={{
                     remember: true,
                 }}
-                onFinish={handleFinish}
-                onFinishFailed={onFinishFailed}
+                onFinish={onFinish}
                 autoComplete="off"
             >
                 <Form.Item
@@ -137,11 +142,17 @@ export const RegistroFormulario = () => {
                 </Form.Item>
                 <Form.Item
                     name="avatar_url"
-                    valuePropName="fileList"
+                    valuePropName="file"
                     getValueFromEvent={normFile}
-                    extra=""
                 >
-                    <Upload name="logo" action="/upload.do" listType="picture">
+                    <Upload
+                        listType="picture"
+                        maxCount={1}
+                        accept=".png,.jpeg,.jpg"
+                        beforeUpload={(file) => {
+                            return false;
+                        }}
+                    >
                         <Button icon={<UploadOutlined />}>Subir foto de perfil</Button>
                     </Upload>
                 </Form.Item>

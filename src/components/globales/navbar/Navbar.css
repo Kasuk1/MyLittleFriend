@@ -110,8 +110,9 @@
 }
 
 .user-avatar {
-    width: 3rem;
-    height: 3rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    object-fit: cover;
     border-radius: 50%;
 }
 

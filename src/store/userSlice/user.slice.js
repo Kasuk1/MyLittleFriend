@@ -125,7 +125,11 @@ export const userSlice = createSlice({
                         state.getPetsState.status = 'Failed'
                         return;
                     }
-                    state.user.pets = action.payload.data;
+
+                    if (action.payload.status === 'OK') {
+                        state.user.pets = action.payload.data;
+                        return;
+                    }
                 })
                 .addCase(getPets.rejected, (state, action) => {
                     state.getPetsState.loading = false;

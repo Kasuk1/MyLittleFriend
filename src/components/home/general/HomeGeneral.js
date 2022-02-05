@@ -28,7 +28,7 @@ export const HomeGeneral = () => {
                 <section className="section__hero">
                     <div className="section__hero--description">
                         <h1 className='section__hero--title heading--1 mb-2'>
-                            {status === 'OK' ?
+                            {user ?
                                 (
                                     `Bienvenido otra vez ${user.full_name}`
                                 )

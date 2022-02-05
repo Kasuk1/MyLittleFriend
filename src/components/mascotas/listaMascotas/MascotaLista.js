@@ -6,7 +6,7 @@ import { Mascota } from "../mascota/Mascota"
 import { UserMiniProfile } from "../../globales/mini/userMiniProfile/UserMiniProfile";
 import { CardListLoading } from "../../loading/CardListLoading/CardListLoading";
 
-import { getPets, selectGetPetsState, selectUser } from "../../../store/userSlice/user.slice";
+import { getPets, resetUserMethodsMessage, selectGetPetsState, selectUser } from "../../../store/userSlice/user.slice";
 import './MascotaLista.css';
 
 export const MascotaLista = () => {
@@ -15,13 +15,19 @@ export const MascotaLista = () => {
     const user = useSelector(selectUser);
     const userId = user.id;
     const pets = user.pets;
-    const { loading, message } = useSelector(selectGetPetsState);
-
-    console.log(pets)
+    const { loading, message, status } = useSelector(selectGetPetsState);
 
     useEffect(() => {
         dispatch(getPets(userId));
     }, [dispatch, userId]);
+
+    useEffect(() => {
+        if (status === 'Failed') {
+            setTimeout(() => {
+                dispatch(resetUserMethodsMessage('getPetsState'));
+            }, 3000);
+        }
+    }, [dispatch, status]);
 
     return (
         <div className='section__pets--container'>
@@ -54,6 +60,7 @@ export const MascotaLista = () => {
                         Agregar mascota
                     </button>
                 </div>
+                {message && <p className='paragraph color-paragraph opacity-50'>{message}</p>}
                 {
                     loading ?
                         (
@@ -74,9 +81,6 @@ export const MascotaLista = () => {
                         )
 
                 }
-                {message && <p className='paragraph color-paragraph opacity-50'>{message}</p>}
-
-
             </section>
         </div>
 

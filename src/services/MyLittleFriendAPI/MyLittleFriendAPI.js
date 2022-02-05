@@ -15,10 +15,19 @@ const headerGet = {
 export const MyLittleFriendAPI = {
     //* USER REQUESTS */
     async signUp(data) {
+        let url;
+        if (data.avatar_url) {
+            const uploadImageResponse = await MyLittleFriendAPI.upladFile(data.avatar_url);
+            url = uploadImageResponse;
+        }
+
         const response = await fetch(`${MLFURI}/customers`, {
             method: 'POST',
             headers: headerPost,
-            body: JSON.stringify(data)
+            body: JSON.stringify({
+                ...data,
+                avatar_url: url
+            })
         });
 
         const json = await response.json();
@@ -106,14 +115,12 @@ export const MyLittleFriendAPI = {
         console.log(file)
         const formData = new FormData();
         formData.append('image', file);
-        console.log(formData)
 
         const response = await fetch(`${MLFURI}/upload/file`, {
             method: 'POST',
             body: formData
         });
         const json = await response.json();
-        console.log(json)
-        return json;
+        return json.data.url;
     }
 }

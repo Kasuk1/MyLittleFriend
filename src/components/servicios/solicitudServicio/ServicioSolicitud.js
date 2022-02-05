@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { Form, DatePicker, Cascader } from 'antd';
 import locale from 'antd/es/date-picker/locale/es_ES';
 
@@ -8,10 +7,10 @@ import { SpinLoading } from '../../loading/SpinLoading/SpinLoading';
 import { selectPet } from '../../../store/petSlice/pet.slice';
 import { getVeterinaries, selectGetVeterinariesState, selectVeterinaries } from '../../../store/veterinarySlice/veterinary.slice';
 import './ServicioSolicitud.css'
+import { ButtonRegresar } from '../../globales/buttons/ButtonRegresar/ButtonRegresar';
 
 export const ServicioSolicitud = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const pet = useSelector(selectPet);
   const veterinaries = useSelector(selectVeterinaries);
   const { loading } = useSelector(selectGetVeterinariesState);
@@ -132,9 +131,7 @@ export const ServicioSolicitud = () => {
             <button className="btn btn--secondary" type='submit'>
               Reservar
             </button>
-            <button className="btn btn--tertiary" onClick={() => navigate(-1)}>
-              Cancelar
-            </button>
+            <ButtonRegresar />
           </div>
 
         </Form>

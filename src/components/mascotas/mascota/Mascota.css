@@ -2,7 +2,7 @@
     background-color: var(--white-color);
     cursor: pointer;
     min-width: 20rem;
-    max-width: 30rem;
+    width: 30rem;
     border-radius: 0.5rem;
     transition: all 0.3s;
 }
