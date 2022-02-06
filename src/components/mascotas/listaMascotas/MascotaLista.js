@@ -8,6 +8,7 @@ import { CardListLoading } from "../../loading/CardListLoading/CardListLoading";
 
 import { getPets, resetUserMethodsMessage, selectGetPetsState, selectUser } from "../../../store/userSlice/user.slice";
 import './MascotaLista.css';
+import { resetPaymentMethods, selectRegisterPaymentState } from "../../../store/paymentSlice/payment.slice";
 
 export const MascotaLista = () => {
     const dispatch = useDispatch();
@@ -16,6 +17,7 @@ export const MascotaLista = () => {
     const userId = user.id;
     const pets = user.pets;
     const { loading, message, status } = useSelector(selectGetPetsState);
+    const registerPaymentState = useSelector(selectRegisterPaymentState);
 
     useEffect(() => {
         dispatch(getPets(userId));
@@ -28,6 +30,14 @@ export const MascotaLista = () => {
             }, 3000);
         }
     }, [dispatch, status]);
+
+    useEffect(() => {
+        if (registerPaymentState.status === 'OK') {
+            setTimeout(() => {
+                dispatch(resetPaymentMethods('registerPaymentState'));
+            }, 5000)
+        }
+    }, [dispatch, registerPaymentState])
 
     return (
         <div className='section__pets--container'>
@@ -60,7 +70,8 @@ export const MascotaLista = () => {
                         Agregar mascota
                     </button>
                 </div>
-                {message && <p className='paragraph color-paragraph opacity-50'>{message}</p>}
+                {status === 'Failed' && <p className='error-message align-self-flex-start'>{message}</p>}
+                {registerPaymentState.status === 'OK' && <p className='error-message align-self-flex-start'>{registerPaymentState.message}</p>}
                 {
                     loading ?
                         (

@@ -8,8 +8,18 @@ import { ServiciosLista } from '../components/servicios/listaServicios/Servicios
 import { VeterinariasLista } from '../components/veterinarias/listaVeterinarias/VeterinariasLista';
 import { PrivateRoutes } from './PrivateRoutes';
 import { PublicRoutes } from './PublicRoutes';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { logout } from '../store/userSlice/user.slice';
 
 export const AppRoutes = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (window.localStorage.getItem('tokenInvalid')) {
+            dispatch(logout());
+        }
+    }, [dispatch]);
 
     return (
         <BrowserRouter>

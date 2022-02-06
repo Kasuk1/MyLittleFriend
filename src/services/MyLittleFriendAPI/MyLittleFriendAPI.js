@@ -17,7 +17,7 @@ export const MyLittleFriendAPI = {
     async signUp(data) {
         let url;
         if (data.avatar_url) {
-            const uploadImageResponse = await MyLittleFriendAPI.upladFile(data.avatar_url);
+            const uploadImageResponse = await MyLittleFriendAPI.uploadFile(data.avatar_url);
             url = uploadImageResponse;
         }
 
@@ -62,6 +62,15 @@ export const MyLittleFriendAPI = {
         return pets;
     },
 
+    async getUserCardData(userId) {
+        const response = await fetch(`${MLFURI}/customers/${userId}/paymentdata`, {
+            method: 'GET',
+            headers: headerGet
+        });
+        const userCardData = await response.json();
+        return userCardData;
+    },
+
     //* PETS REQUESTS */
     async getPetById(petId) {
         const response = await fetch(`${MLFURI}/pets/${petId}`, {
@@ -75,7 +84,7 @@ export const MyLittleFriendAPI = {
     async registerPet(data) {
         let url;
         if (data.avatar_url) {
-            const uploadImageResponse = await MyLittleFriendAPI.upladFile(data.avatar_url);
+            const uploadImageResponse = await MyLittleFriendAPI.uploadFile(data.avatar_url);
             url = uploadImageResponse;
         }
 
@@ -111,8 +120,7 @@ export const MyLittleFriendAPI = {
     },
 
     //* UPLOAD FILES REQUESTS */
-    async upladFile(file) {
-        console.log(file)
+    async uploadFile(file) {
         const formData = new FormData();
         formData.append('image', file);
 
@@ -122,5 +130,26 @@ export const MyLittleFriendAPI = {
         });
         const json = await response.json();
         return json.data.url;
+    },
+
+    //* PAYMENT REQUESTS */
+    async registerCard(data) {
+        const response = await fetch(`${MLFURI}/payment/card`, {
+            method: 'POST',
+            headers: headerPost,
+            body: JSON.stringify(data)
+        });
+        const cardResult = await response.json();
+        return cardResult;
+    },
+
+    async registerPayment(data) {
+        const response = await fetch(`${MLFURI}/payment`, {
+            method: 'POST',
+            headers: headerPost,
+            body: JSON.stringify(data)
+        });
+        const paymentResult = await response.json();
+        return paymentResult;
     }
 }

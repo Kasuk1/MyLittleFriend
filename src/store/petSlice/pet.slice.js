@@ -33,6 +33,9 @@ export const petSlice = createSlice({
         resetPetMethodsMessage(state, action) {
             state[action.payload].message = '';
             state[action.payload].status = '';
+        },
+        setPet(state, action) {
+            state.pet = action.payload;
         }
     },
     extraReducers:
@@ -51,10 +54,19 @@ export const petSlice = createSlice({
                     if (action.payload.status === 'Failed') {
                         state.pet = null;
                         state.getPetByIdState.message = 'Ocurrió un error al tratar de obtener el pet 😔.';
+                    }
+                    if (action.payload.message === 'Unauthorized') {
+                        window.localStorage.setItem('tokenInvalid', true);
                         return;
                     }
 
-                    state.pet = action.payload.data;
+                    if (action.payload.status === 'OK') {
+                        state.registerPetState.message = 'El pet fue exitosamente encontrado 😊.';
+                        state.registerPetState.status = 'OK';
+                        state.pet = action.payload.data;
+                        return;
+                    }
+
                 })
                 .addCase(getPetById.rejected, (state) => {
                     state.getPetByIdState.loading = false;
@@ -73,6 +85,9 @@ export const petSlice = createSlice({
                     if (action.payload.status === 'Failed') {
                         state.registerPetState.message = 'Ocurrió un error al tratar de registrar el pet 😔.';
                         state.registerPetState.status = 'Failed';
+                    }
+                    if (action.payload.message === 'Unauthorized') {
+                        window.localStorage.setItem('tokenInvalid', true);
                         return;
                     }
 
@@ -89,7 +104,7 @@ export const petSlice = createSlice({
         }
 })
 
-export const { resetPetMethodsMessage } = petSlice.actions;
+export const { resetPetMethodsMessage, setPet } = petSlice.actions;
 
 export const selectPet = (state) => state.pet.pet;
 export const selectGetPetByIdState = (state) => state.pet.getPetByIdState;

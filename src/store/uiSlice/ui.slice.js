@@ -5,10 +5,8 @@ export const uiSlice = createSlice({
     initialState: {
     },
     reducers: {
-
     }
 })
-
 
 export const selectUiState = (state) => state.ui;
 

@@ -1,0 +1,77 @@
+.card-register-form {
+    min-width: 35rem;
+    width: 55rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2.5rem;
+}
+
+
+.card-register-form__card-design {
+    background-color: var(--paragraph-color);
+    border-radius: 1.2rem;
+    color: var(--white-color);
+    padding: 1.8rem 2rem 2rem 3rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.card-register-form__primary {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.card-register-form__primary img {
+    width: 7rem;
+}
+
+.card-register-form__input .ant-form-item-label label {
+    color: var(--white-color);
+}
+.card-register-form__input .input--card-number {
+    width: 100%;
+    font-size: 3rem;
+}
+
+@media only screen and (min-width: 37.5em) {
+    .card-register-form__input .input--card-number {
+        width: 75%;
+        font-size: 3rem;
+    }
+}
+
+.input--card-number input {
+    letter-spacing: 0.1rem;
+}
+
+
+.card-register-form__secondary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10rem;
+}
+.card-register-form__expiration {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+.card-register-form__input .input--month {
+    width: 6rem;
+}
+.card-register-form__input .input--year {
+    width: 7rem;
+}
+
+.card-register-form__input .input--cvc {
+    width: 6rem;
+}
+
+.card-register-form__type-card {
+    align-self: flex-end;
+    font-size: 2.8rem;
+    font-weight: 800;
+    transform: skewX(-7deg);
+}

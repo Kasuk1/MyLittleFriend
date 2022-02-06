@@ -17,6 +17,11 @@ export const getPets = createAsyncThunk(
     (userId) => MyLittleFriendAPI.getPetsByUserId(userId)
 );
 
+export const getUserCardData = createAsyncThunk(
+    'user/getUserCardData',
+    (userId) => MyLittleFriendAPI.getUserCardData(userId)
+);
+
 //* SLICE DEFINITION
 export const userSlice = createSlice({
     name: 'user',
@@ -35,6 +40,12 @@ export const userSlice = createSlice({
             status: ''
         },
         getPetsState: {
+            loading: false,
+            error: false,
+            message: '',
+            status: ''
+        },
+        getUserCardData: {
             loading: false,
             error: false,
             message: '',
@@ -123,7 +134,10 @@ export const userSlice = createSlice({
                     if (action.payload.status === 'Failed') {
                         state.getPetsState.message = 'Los pets no puedieron ser listados. Porfavor intente otra vez 😔.';
                         state.getPetsState.status = 'Failed'
-                        return;
+                    }
+
+                    if (action.payload.message === 'Unauthorized') {
+                        window.localStorage.setItem('tokenInvalid', true);
                     }
 
                     if (action.payload.status === 'OK') {
@@ -135,6 +149,41 @@ export const userSlice = createSlice({
                     state.getPetsState.loading = false;
                     state.getPetsState.error = true;
                 })
+
+                //* GetUserCardData Method Thunk */
+                .addCase(getUserCardData.pending, (state) => {
+                    state.getUserCardData.loading = true;
+                    state.getUserCardData.error = false;
+                })
+                .addCase(getUserCardData.fulfilled, (state, action) => {
+                    state.getUserCardData.loading = false;
+                    state.getUserCardData.error = false;
+
+                    if (action.payload.status === 'Failed') {
+                        state.getUserCardData.status = 'Failed';
+                        state.getUserCardData.message = 'Ocurrió un error al tratar de obtener la data 😔.';
+                    }
+
+                    if (action.payload.message === 'Unauthorized') {
+                        window.localStorage.setItem('tokenInvalid', true);
+                        return;
+                    }
+
+                    if (action.payload.status === 'OK') {
+                        state.getUserCardData.status = 'OK';
+                        state.getUserCardData.message = 'La información fue corractemente procesada 😊.';
+
+                        state.user = {
+                            ...state.user,
+                            ...action.payload.data
+                        }
+                    }
+                    console.log(action.payload)
+                })
+                .addCase(getUserCardData.rejected, (state) => {
+                    state.getUserCardData.loading = false;
+                    state.getUserCardData.error = true;
+                })
         }
 })
 
@@ -144,5 +193,6 @@ export const selectUser = (state) => state.user.user;
 export const selectSignUpState = (state) => state.user.signUpState;
 export const selectSignInState = (state) => state.user.signInState;
 export const selectGetPetsState = (state) => state.user.getPetsState;
+export const selectGetUserCardData = (state) => state.user.getUserCardData;
 
 export default userSlice.reducer;

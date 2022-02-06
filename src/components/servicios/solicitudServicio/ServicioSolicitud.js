@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Form, DatePicker, Cascader } from 'antd';
 import locale from 'antd/es/date-picker/locale/es_ES';
 
+import { ButtonRegresar } from '../../globales/buttons/ButtonRegresar/ButtonRegresar';
 import { SpinLoading } from '../../loading/SpinLoading/SpinLoading';
 import { selectPet } from '../../../store/petSlice/pet.slice';
 import { getVeterinaries, selectGetVeterinariesState, selectVeterinaries } from '../../../store/veterinarySlice/veterinary.slice';
 import './ServicioSolicitud.css'
-import { ButtonRegresar } from '../../globales/buttons/ButtonRegresar/ButtonRegresar';
+import { setServiceSelected } from '../../../store/serviceSlice/service.slice';
 
 export const ServicioSolicitud = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const pet = useSelector(selectPet);
   const veterinaries = useSelector(selectVeterinaries);
   const { loading } = useSelector(selectGetVeterinariesState);
@@ -45,7 +48,11 @@ export const ServicioSolicitud = () => {
   const formSuccess = (datos) => {
     const { date, service } = datos;
     let serviceSelected;
+    let veterinarySelectedName;
     for (let vet of veterinaries) {
+      if (vet._id === service[0]) {
+        veterinarySelectedName = vet.name;
+      }
       for (let serv of vet.services) {
         if (serv._id === service[1]) {
           serviceSelected = { ...serv };
@@ -60,6 +67,20 @@ export const ServicioSolicitud = () => {
       attendance_detail: serviceSelected.detail,
     }
     console.log("formulario enviado", data);
+
+    dispatch(setServiceSelected({
+      bill: serviceSelected._id,
+      description: `${serviceSelected.name} - ${veterinarySelectedName}`,
+      value: (serviceSelected.price).toString(),
+      currency: 'COP',
+      dues: '1',
+      ip: '190.000.000.000',
+      docType: 'CC',
+      tax: (serviceSelected.price - Math.floor(serviceSelected.price / 1.19)).toString(),
+      taxBase: (Math.floor(serviceSelected.price / 1.19)).toString()
+    }))
+
+    navigate('payment');
   }
 
   useEffect(() => {
@@ -98,7 +119,11 @@ export const ServicioSolicitud = () => {
               }
             ]}
           >
-            <Cascader options={options} placeholder="Selecciona el servicio" onChange={handleCascaderChange} />
+            <Cascader
+              options={options}
+              placeholder="Selecciona el servicio"
+              onChange={handleCascaderChange}
+            />
           </Form.Item>
           <Form.Item
             name="date"

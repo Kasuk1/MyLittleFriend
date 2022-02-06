@@ -5,11 +5,10 @@ import { Form, Input, Button, Select, DatePicker, Upload, } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
 
 import { SpinLoading } from "../../loading/SpinLoading/SpinLoading";
-
+import { ButtonRegresar } from "../../globales/buttons/ButtonRegresar/ButtonRegresar";
 import { selectUser } from "../../../store/userSlice/user.slice";
 import { registerPet, resetPetMethodsMessage, selectRegisterPetState } from "../../../store/petSlice/pet.slice";
 import './MascotaRegistro.css';
-import { ButtonRegresar } from "../../globales/buttons/ButtonRegresar/ButtonRegresar";
 
 export const MascotaRegistro = () => {
   const dispatch = useDispatch();
@@ -42,6 +41,7 @@ export const MascotaRegistro = () => {
   }, [dispatch, status, navigate])
 
   const normFile = (e) => {
+    console.log(e)
     if (Array.isArray(e)) {
       return e;
     }
