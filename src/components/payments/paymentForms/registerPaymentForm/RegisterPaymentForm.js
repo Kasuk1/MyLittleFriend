@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, InputNumber } from 'antd';
 
 import { registerPayment, selectPayment, selectRegisterCardState, selectRegisterPaymentState, setCurrentCard, setPaymentFormType } from '../../../../store/paymentSlice/payment.slice';
-import { selectService, setServiceSelected } from '../../../../store/serviceSlice/service.slice';
+import { requestService, selectRequestServiceState, selectService, setServiceSelected } from '../../../../store/serviceSlice/service.slice';
 import { selectUser } from '../../../../store/userSlice/user.slice';
 import { setPet } from '../../../../store/petSlice/pet.slice';
 import { SpinLoading } from '../../../loading/SpinLoading/SpinLoading';
@@ -17,7 +17,8 @@ export const RegisterPaymentForm = () => {
     const { currentCard } = useSelector(selectPayment);
     const { serviceSelected } = useSelector(selectService);
     const registerCardState = useSelector(selectRegisterCardState);
-    const { loading, status, message } = useSelector(selectRegisterPaymentState);
+    const registerPaymentState = useSelector(selectRegisterPaymentState);
+    const requestServiceState = useSelector(selectRequestServiceState);
 
     const onFinish = (values) => {
         const finalValues = {
@@ -31,6 +32,18 @@ export const RegisterPaymentForm = () => {
 
         dispatch(registerPayment(finalValues));
     }
+
+    useEffect(() => {
+        if (registerPaymentState.status === 'OK') {
+            dispatch(requestService({
+                service: serviceSelected.service,
+                price: serviceSelected.price,
+                veterinary: serviceSelected.veterinary,
+                pet: serviceSelected.pet,
+                date: serviceSelected.date
+            }))
+        }
+    }, [registerPaymentState, dispatch, serviceSelected]);
 
     const handleCancel = () => {
         dispatch(setCurrentCard(null));
@@ -48,7 +61,7 @@ export const RegisterPaymentForm = () => {
     return (
         <Form
             className="register-payment-form position-relative"
-            name="card-register-form"
+            name="payment-register-form"
             initialValues={{
                 remember: true,
             }}
@@ -58,7 +71,7 @@ export const RegisterPaymentForm = () => {
             <p className='link-color-tertiary cursor-pointer mb-2' onClick={handleRegresarAñadirTarjeta}>
                 <i className="fas fa-arrow-left"></i> Añadir tarjeta
             </p>
-            {status === 'Failed' && <p className='error-message mb-2'>{message}</p>}
+            {registerPaymentState.status === 'Failed' && <p className='error-message mb-2'>{registerPaymentState.message}</p>}
             {registerCardState.status === 'OK' && <p className='error-message mb-2'>{registerCardState.message}</p>}
             <div className='register-payment-form__headers mb-3'>
                 <h3 className='heading--3 color-tertiary'>Finaliza tu reserva</h3>
@@ -162,7 +175,8 @@ export const RegisterPaymentForm = () => {
                 </p>
             </div>
 
-            {loading && <SpinLoading text='Realizando pago 🤖.' />}
+            {registerPaymentState.loading && <SpinLoading text='Realizando pago 🤖.' />}
+            {requestServiceState.loading && <SpinLoading text='Reservando cita 🤖.' />}
 
             <div className='display-flex flex-wrap gap-2 mt-5'>
                 <button className="btn btn--cuaternary" type='submit'>Proceder a pagar</button>

@@ -11,6 +11,15 @@ const headerGet = {
     'Authorization': `Bearer ${token}`,
     'Content-Type': 'application/json'
 }
+const headerPut = {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+}
+
+const headerDelete = {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+}
 
 export const MyLittleFriendAPI = {
     //* USER REQUESTS */
@@ -100,6 +109,33 @@ export const MyLittleFriendAPI = {
         return json;
     },
 
+    async updatePetById(data) {
+        let url;
+        if (data.newData.avatar_url) {
+            const uploadImageResponse = await MyLittleFriendAPI.uploadFile(data.newData.avatar_url);
+            url = uploadImageResponse;
+        }
+        const response = await fetch(`${MLFURI}/pets/${data.petId}`, {
+            method: 'PUT',
+            headers: headerPut,
+            body: JSON.stringify({
+                ...data.newData,
+                avatar_url: url
+            })
+        });
+        const json = await response.json();
+        return json;
+    },
+
+    async deletePetById(petId) {
+        const response = await fetch(`${MLFURI}/pets/${petId}`, {
+            method: 'DELETE',
+            headers: headerDelete,
+        });
+        const petDeleted = await response.json();
+        return petDeleted;
+    },
+
     //* VETERINARIES REQUESTS */
     async getVeterinaries() {
         const response = await fetch(`${MLFURI}/veterinaries`, {
@@ -151,5 +187,17 @@ export const MyLittleFriendAPI = {
         });
         const paymentResult = await response.json();
         return paymentResult;
+    },
+
+    //* SERVICE REQUESTS */ 
+    async requestService(data) {
+        console.log(data)
+        const response = await fetch(`${MLFURI}/requestservices`, {
+            method: 'POST',
+            headers: headerPost,
+            body: JSON.stringify(data)
+        });
+        const requestServiceResult = await response.json();
+        return requestServiceResult;
     }
 }

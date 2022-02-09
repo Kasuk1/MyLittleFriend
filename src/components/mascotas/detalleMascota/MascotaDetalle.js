@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { Table } from 'antd';
@@ -7,7 +7,7 @@ import { MascotaDetalleModal } from "./MascotaDetalleModal";
 import { LinkRegresar } from "../../globales/links/LinkRegresar/LinkRegresar";
 import { PetDetailLoading } from "../../loading/PetDetailLoading/PetDetailLoading";
 
-import { getPetById, selectGetPetByIdState, selectPet } from "../../../store/petSlice/pet.slice";
+import { getPetById, selectGetPetByIdState, selectPet, deletePetById } from "../../../store/petSlice/pet.slice";
 import './MascotaDetalle.css';
 
 const { Column } = Table;
@@ -18,6 +18,7 @@ export const MascotaDetalle = () => {
     const { petId } = useParams();
     const pet = useSelector(selectPet);
     const { loading } = useSelector(selectGetPetByIdState);
+    const [showModal, setShowModal] = useState(false);
 
     const renderBirthdate = (birthdate) => {
         const date = new Date(birthdate);
@@ -31,11 +32,16 @@ export const MascotaDetalle = () => {
         dispatch(getPetById(petId))
     }, [dispatch, petId]);
 
+    const handleDeletePet = () => {
+        dispatch(deletePetById(petId));
+        navigate(-1);
+    }
+
     return (
         <div className='pet-detail__container'>
 
-            <div className='pet-detail'>
-                <LinkRegresar />
+            <div className='pet-detail position-relative'>
+                <LinkRegresar to='/pets' />
                 {loading ?
                     (
                         <PetDetailLoading />
@@ -76,13 +82,23 @@ export const MascotaDetalle = () => {
                                             {pet.birthdate ? renderBirthdate(pet.birthdate) : 'Sin fecha de nacimiento'}
                                         </span>
                                     </div>
+                                    <div className='pet-card__options'>
+                                        <div className='pet-card__option' onClick={() => navigate('edit')}>
+                                            <i className="fas fa-edit"></i>
+                                        </div>
+                                        <div className='pet-card__option' onClick={() => setShowModal(!showModal)}>
+                                            <i className="fas fa-trash-alt"></i>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                             <div>
                                 <Table dataSource={pet.medical_history}>
+                                    <Column title="ID" dataIndex="_id" key="_id" responsive={['md']} />
                                     <Column title="Fecha" dataIndex="date" key="date" responsive={['md']} />
                                     <Column title="Veterinaria" dataIndex="vet" key="vet" responsive={['sm']} />
-                                    <Column title="Descripción" dataIndex="description" key="description" />
+                                    <Column title="Status" dataIndex="status" key="status" />
                                     <Column
                                         title="Detalle"
                                         key="detail"
@@ -100,6 +116,22 @@ export const MascotaDetalle = () => {
                         </>
                     )
                 }
+
+                <div className='modal__container' style={{ display: `${showModal ? 'flex' : 'none'}` }}>
+                    <div className='modal'>
+                        <div>
+                            <p className='modal__question'>¿Estas seguro de eliminar el pet?</p>
+                            <p className='paragraph opacity-80'>
+                                Recuerda que tu pet será eliminado permanentemente.
+                            </p>
+                        </div>
+                        <div className='display-flex justify-content-center gap-2 flex-wrap'>
+                            <button className='btn btn--tertiary' onClick={handleDeletePet}>Eliminar</button>
+                            <button className='btn' onClick={() => setShowModal(!showModal)}>Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 

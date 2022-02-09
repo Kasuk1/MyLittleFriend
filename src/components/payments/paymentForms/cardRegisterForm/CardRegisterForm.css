@@ -9,7 +9,7 @@
 
 
 .card-register-form__card-design {
-    background-color: var(--paragraph-color);
+    background-color: rgba(170, 92, 219, 0.45);
     border-radius: 1.2rem;
     color: var(--white-color);
     padding: 1.8rem 2rem 2rem 3rem;

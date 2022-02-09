@@ -25,6 +25,7 @@ export const MascotaRegistro = () => {
     }
     const data = {
       ...values,
+      birthdate: values.birthdate.toString(),
       owner,
       avatar_url
     };
@@ -41,7 +42,6 @@ export const MascotaRegistro = () => {
   }, [dispatch, status, navigate])
 
   const normFile = (e) => {
-    console.log(e)
     if (Array.isArray(e)) {
       return e;
     }
@@ -64,9 +64,7 @@ export const MascotaRegistro = () => {
       <Form
         className='pet-register__form position-relative'
         name="pet-register"
-        initialValues={{
-          remember: true,
-        }}
+        initialValues={{}}
         onFinish={onFinish}
         autoComplete="off"
       >

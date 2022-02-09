@@ -111,7 +111,6 @@ const paymentSlice = createSlice({
                 if (action.payload.status === 'Ok') {
                     state.registerPaymentState.status = 'OK';
                     state.registerPaymentState.message = 'Pago correctamente realizado 😊';
-                    state.formType = 'registerCard';
                 }
                 console.log(action.payload)
             })

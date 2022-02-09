@@ -1,16 +1,19 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Form, InputNumber } from 'antd';
 
-import chipCard from '../../../../assets/chipcard.png';
 import { registerCard, selectRegisterCardForm, selectRegisterCardState, setRegisterCardFormValues } from '../../../../store/paymentSlice/payment.slice';
 import { selectUser } from '../../../../store/userSlice/user.slice';
-import './CardRegisterForm.css'
 import { SpinLoading } from '../../../loading/SpinLoading/SpinLoading';
+import { setServiceSelected } from '../../../../store/serviceSlice/service.slice';
+import chipCard from '../../../../assets/chipcard.png';
+import './CardRegisterForm.css'
 
 
 export const CardRegisterForm = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const registerCardFormValues = useSelector(selectRegisterCardForm);
     const { loading, message } = useSelector(selectRegisterCardState);
     const { id: customerId, customerPaymentId } = useSelector(selectUser);
@@ -27,6 +30,11 @@ export const CardRegisterForm = () => {
             customerPaymentId
         }));
     };
+
+    const handleCancel = () => {
+        dispatch(setServiceSelected(null));
+        navigate(-1);
+    }
 
     return (
         <Form
@@ -135,7 +143,10 @@ export const CardRegisterForm = () => {
 
             {loading && <SpinLoading text='Registrando tarjeta 🤖.' />}
 
-            <button className="btn btn--secondary" type='submit'>Añadir tarjeta</button>
+            <div className='display-flex gap-2 flex-wrap'>
+                <button className="btn btn--secondary" type='submit'>Añadir tarjeta</button>
+                <button className='btn btn--tertiary' onClick={handleCancel}>Cancelar</button>
+            </div>
 
         </Form>
     );

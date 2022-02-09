@@ -5,6 +5,7 @@ import { HomeGeneral } from "../components/home/general/HomeGeneral";
 import { MascotaDetalle } from "../components/mascotas/detalleMascota/MascotaDetalle";
 import { MascotaLista } from "../components/mascotas/listaMascotas/MascotaLista";
 import { MascotaRegistro } from "../components/mascotas/registroMascotas/MascotaRegistro";
+import { MascotaEdit } from "../components/mascotas/editarMascota/MascotaEdit";
 import { ServicioSolicitud } from "../components/servicios/solicitudServicio/ServicioSolicitud";
 import { Payment } from "../components/payments/payment/Payment";
 import { ServiceRequestGuard } from "./ServiceRequestGuard";
@@ -20,6 +21,7 @@ export const PrivateRoutes = () => {
             <Route path='/*' element={<HomeGeneral />} />
             <Route path="/pets" element={<MascotaLista />}></Route>
             <Route path="/pet/:petId" element={<MascotaDetalle />}></Route>
+            <Route path="/pet/:petId/edit" element={<MascotaEdit />}></Route>
             <Route path="/pet-register" element={<MascotaRegistro />}></Route>
             <Route path="/service-request" element={
                 <ServiceRequestGuard>
@@ -28,9 +30,11 @@ export const PrivateRoutes = () => {
             }>
             </Route>
             <Route path='/service-request/payment' element={
-                <PaymentRequestGuard>
-                    <Payment />
-                </PaymentRequestGuard>
+                <ServiceRequestGuard>
+                    <PaymentRequestGuard>
+                        <Payment />
+                    </PaymentRequestGuard>
+                </ServiceRequestGuard>
             }>
             </Route>
         </Routes>

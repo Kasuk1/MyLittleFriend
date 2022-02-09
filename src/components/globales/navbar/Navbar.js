@@ -39,7 +39,7 @@ export const Navbar = () => {
                         </a></li>
                     </div>
 
-                    <span className={className + ' divider'}> | </span>
+                    {/* <span className={className + ' divider'}> | </span> */}
 
                     <li className={className}>
                         <div className="icons-user-logged">

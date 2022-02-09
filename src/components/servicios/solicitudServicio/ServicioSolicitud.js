@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Form, DatePicker, Cascader } from 'antd';
-import locale from 'antd/es/date-picker/locale/es_ES';
 
 import { ButtonRegresar } from '../../globales/buttons/ButtonRegresar/ButtonRegresar';
 import { SpinLoading } from '../../loading/SpinLoading/SpinLoading';
@@ -60,17 +59,14 @@ export const ServicioSolicitud = () => {
       }
     }
 
-    const data = {
-      date,
+    const newDataService = {
+      bill: serviceSelected._id,
+      service: serviceSelected.name,
+      description: `${veterinarySelectedName} - ${serviceSelected.detail}`,
+      price: serviceSelected.price,
       veterinary: service[0],
       pet: pet._id,
-      attendance_detail: serviceSelected.detail,
-    }
-    console.log("formulario enviado", data);
-
-    dispatch(setServiceSelected({
-      bill: serviceSelected._id,
-      description: `${serviceSelected.name} - ${veterinarySelectedName}`,
+      date: date.toString(),
       value: (serviceSelected.price).toString(),
       currency: 'COP',
       dues: '1',
@@ -78,7 +74,9 @@ export const ServicioSolicitud = () => {
       docType: 'CC',
       tax: (serviceSelected.price - Math.floor(serviceSelected.price / 1.19)).toString(),
       taxBase: (Math.floor(serviceSelected.price / 1.19)).toString()
-    }))
+    }
+
+    dispatch(setServiceSelected(newDataService));
 
     navigate('payment');
   }
@@ -109,6 +107,7 @@ export const ServicioSolicitud = () => {
           initialValues={{
             remember: true,
           }}
+          autoComplete="off"
         >
           <Form.Item
             name="service"
@@ -137,7 +136,6 @@ export const ServicioSolicitud = () => {
             <DatePicker
               style={{ width: "100%" }}
               placeholder="Fecha de la cita"
-              locale={locale}
             />
           </Form.Item>
 

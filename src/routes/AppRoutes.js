@@ -18,6 +18,7 @@ export const AppRoutes = () => {
     useEffect(() => {
         if (window.localStorage.getItem('tokenInvalid')) {
             dispatch(logout());
+            window.localStorage.clear();
         }
     }, [dispatch]);
 

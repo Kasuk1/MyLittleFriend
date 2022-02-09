@@ -5,6 +5,7 @@
     width: 30rem;
     border-radius: 0.5rem;
     transition: all 0.3s;
+    position: relative;
 }
 .pet-card:hover {
     transform: translateY(-0.5rem);
@@ -40,4 +41,32 @@
 
 .pet-card__birthdate {
     align-self: flex-end;
+}
+
+.pet-card__options {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.pet-card__option {
+    background-color: var(--white-color);
+    border-radius: 50%;
+    padding: 0.7rem 0.8rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.65;
+    transition: all 0.2s;
+}
+.pet-card__option:hover {
+    transform: scale(1.25);
+    opacity: 1;
+}
+.pet-card__option i {
+    color: var(--tertiary-color);
+    font-size: 1.5rem;
 }
