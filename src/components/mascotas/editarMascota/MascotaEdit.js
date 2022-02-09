@@ -71,7 +71,7 @@ export const MascotaEdit = () => {
                     className='pet-register__form display-flex flex-column gap-1 position-relative'
                     name="pet-edit"
                     initialValues={{
-                        birthdate: moment(pet?.birthdate, 'YYYY/MM/DD'),
+                        birthdate: pet?.birthdate && moment(pet?.birthdate, 'YYYY/MM/DD'),
                         detail: pet?.detail,
                     }}
                     onFinish={onFinish}
