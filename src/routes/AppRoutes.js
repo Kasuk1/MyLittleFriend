@@ -35,6 +35,7 @@ export const AppRoutes = () => {
                         </PublicRoutes>
                     }
                     />
+                    <Route path='/login/:tokenActivateUser' element={<LoginFormulario />} />
                     <Route path='/register' element={
                         <PublicRoutes>
                             <RegistroFormulario />
