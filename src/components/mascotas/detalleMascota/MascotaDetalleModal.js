@@ -9,17 +9,13 @@ export const MascotaDetalleModal = ({ nameButton, detalle }) => {
             title: 'Detalle de Servicio',
             className: 'modal--info',
             content: (
-                <div>
-                    <h3 className='heading--4'>Fecha</h3>
-                    <p className='paragraph'>{detalle.date}</p>
-                    <h3 className='heading--4'>Veterinaria</h3>
-                    <p className='paragraph'>{detalle.vet}</p>
-                    <h3 className='heading--4'>Descripción</h3>
-                    <p className='paragraph'>{detalle.description}</p>
-                    <h3 className='heading--4'>Medicamentos</h3>
-                    <ul>
-                        {detalle.medication.map(({ id, name, dose }) => (
-                            <li key={id}>{name} - {dose}</li>
+                <div className='display-flex flex-column gap-2'>
+                    <h3 className='heading--4'>Receta/Medicación</h3>
+                    <ul className='display-flex flex-column gap-1'>
+                        {detalle?.recipe?.map(({ _id, name, detail }) => (
+                            <li key={_id}>
+                                <span style={{ fontWeight: 'bold' }}>{name}</span> - {detail}
+                            </li>
                         ))}
                     </ul>
                 </div>

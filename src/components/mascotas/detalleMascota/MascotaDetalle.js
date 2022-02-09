@@ -19,6 +19,13 @@ export const MascotaDetalle = () => {
     const pet = useSelector(selectPet);
     const { loading } = useSelector(selectGetPetByIdState);
     const [showModal, setShowModal] = useState(false);
+    const dataSource = pet?.medical_history.map((item, i) => {
+        return {
+            ...item,
+            key: item._id,
+            veterinary: item.veterinary.name
+        }
+    });
 
     const renderBirthdate = (birthdate) => {
         const date = new Date(birthdate);
@@ -94,16 +101,16 @@ export const MascotaDetalle = () => {
                                 </div>
                             </div>
                             <div>
-                                <Table dataSource={pet.medical_history}>
+                                <Table dataSource={dataSource}>
                                     <Column title="ID" dataIndex="_id" key="_id" responsive={['md']} />
                                     <Column title="Fecha" dataIndex="date" key="date" responsive={['md']} />
-                                    <Column title="Veterinaria" dataIndex="vet" key="vet" responsive={['sm']} />
+                                    <Column title="Veterinaria" dataIndex="veterinary" key="veterinary" responsive={['sm']} />
                                     <Column title="Status" dataIndex="status" key="status" />
                                     <Column
-                                        title="Detalle"
+                                        title="Receta"
                                         key="detail"
                                         render={(text, record) => {
-                                            const detalleServicio = pet.medical_history?.find(s => s.key === record.key);
+                                            const detalleServicio = pet.medical_history?.find(s => s._id === record.key);
                                             return (
                                                 <MascotaDetalleModal
                                                     nameButton="Ver más"
