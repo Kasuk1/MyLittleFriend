@@ -40,7 +40,7 @@ export const MascotaEdit = () => {
             petId,
             newData: {
                 ...values,
-                birthdate: values.birthdate.toString(),
+                birthdate: values.birthdate && values.birthdate.toString(),
                 avatar_url
             }
         };

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { Table } from 'antd';
+import moment from 'moment';
 
 import { MascotaDetalleModal } from "./MascotaDetalleModal";
 import { LinkRegresar } from "../../globales/links/LinkRegresar/LinkRegresar";
@@ -19,21 +20,16 @@ export const MascotaDetalle = () => {
     const pet = useSelector(selectPet);
     const { loading } = useSelector(selectGetPetByIdState);
     const [showModal, setShowModal] = useState(false);
-    const dataSource = pet?.medical_history.map((item, i) => {
+    const dataSource = pet?.medical_history.map(item => {
         return {
             ...item,
             key: item._id,
+            date: moment(item.date).format('DD MMM, YYYY'),
+            service: item.request.service,
+            price: item.request.price + ' COP',
             veterinary: item.veterinary.name
         }
     });
-
-    const renderBirthdate = (birthdate) => {
-        const date = new Date(birthdate);
-        const day = date.getDate();
-        const month = date.getMonth();
-        const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
-    }
 
     useEffect(() => {
         dispatch(getPetById(petId))
@@ -86,7 +82,7 @@ export const MascotaDetalle = () => {
                                             {pet.detail ? pet.detail : 'Sin descripción'}
                                         </p>
                                         <span className='pet-card__birthdate'>
-                                            {pet.birthdate ? renderBirthdate(pet.birthdate) : 'Sin fecha de nacimiento'}
+                                            {pet.birthdate ? moment(pet.birthdate).format('DD MMM, YYYY') : 'Sin fecha de nacimiento'}
                                         </span>
                                     </div>
                                     <div className='pet-card__options'>
@@ -102,10 +98,11 @@ export const MascotaDetalle = () => {
                             </div>
                             <div>
                                 <Table dataSource={dataSource}>
-                                    <Column title="ID" dataIndex="_id" key="_id" responsive={['md']} />
                                     <Column title="Fecha" dataIndex="date" key="date" responsive={['md']} />
-                                    <Column title="Veterinaria" dataIndex="veterinary" key="veterinary" responsive={['sm']} />
-                                    <Column title="Status" dataIndex="status" key="status" />
+                                    <Column title="Servicio" dataIndex="service" key="service" responsive={['sm']} />
+                                    <Column title="Precio" dataIndex="price" key="price" responsive={['md']} />
+                                    <Column title="Veterinaria" dataIndex="veterinary" key="veterinary" />
+                                    <Column title="Status" dataIndex="status" key="status" responsive={['md']} />
                                     <Column
                                         title="Receta"
                                         key="detail"

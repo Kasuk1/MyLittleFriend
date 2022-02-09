@@ -25,7 +25,7 @@ export const MascotaRegistro = () => {
     }
     const data = {
       ...values,
-      birthdate: values.birthdate.toString(),
+      birthdate: values.birthdate && values.birthdate.toString(),
       owner,
       avatar_url
     };
