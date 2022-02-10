@@ -1,0 +1,289 @@
+/** Section Hero */
+.section__hero--container {
+    background-color: var(--gray-color);
+}
+.section__hero {
+    padding: 13rem 3.5rem;
+    max-width: 140rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8rem;
+}
+
+.section__hero--description {
+    max-width: 50rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+.section__hero--title {
+    color: var(--primary-color);
+    line-height: 4.5rem;
+    text-decoration: underline;
+    text-decoration-color: rgba(170, 92, 219, 0.5);
+    text-transform: uppercase;
+}
+.section__hero--paragraph {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    opacity: 0.7;
+    margin-bottom: 4.5rem;
+}
+
+.section__hero--image {
+    min-width: 20rem;
+}
+
+.section__hero--image img {
+    width: 100%;
+}
+
+@media only screen and (min-width: 50em) {
+    .section__hero {
+        padding: 15rem 3.5rem;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8rem;
+    }
+    .section__hero--title {
+        line-height: 6rem;
+    }
+    .section__hero--image {
+        min-width: 40rem;
+    }
+}
+
+
+/** Section Welcome */
+.section__welcome--container {
+    background-color: var(--primary-color);
+}
+.section__welcome {
+    padding: 6rem 3.5rem;
+    max-width: 140rem;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 5rem;
+}
+
+.section__welcome--image {
+    max-width: 40rem;
+    min-width: 20rem;
+    display: flex;
+    justify-content: center;
+}
+.section__welcome--image img {
+    border-radius: 0.5rem;
+    box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.25);
+    width: 80%;
+}
+
+.section__welcome--description {
+    color: var(--paragraph-color);
+    max-width: 50rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+.section__welcome--title {
+    color: var(--heading-color);
+    line-height: 4.5rem;
+    text-transform: uppercase;
+}
+.section__welcome--title span {
+    color: var(--tertiary-color);
+    font-weight: 800;
+}
+.section__welcome--paragraph {
+    font-size: 1.8rem;
+    margin-bottom: 4.5rem;
+}
+
+@media only screen and (min-width: 50em) {
+    .section__welcome {
+        padding: 12rem 3.5rem;
+        text-align: left;
+        flex-direction: row;
+        justify-content: space-evenly;
+        gap: 1rem;
+    }
+    .section__welcome--title {
+        font-size: 4rem;
+        line-height: 5.5rem;
+    }
+    .section__welcome--image {
+        max-width: 50rem;
+        min-width: 20rem;
+    }
+}
+
+/** Section CTA */
+.section__cta--container {
+    background-color: var(--primary-color);
+}
+
+.section__cta {
+    max-width: 140rem;
+    margin: 0 auto;
+    padding: 6rem 3.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10rem;
+}
+
+.section__cta--description {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+.section__cta--title {
+    color: var(--white-color);
+    text-transform: uppercase;
+}
+.section__cta--title span {
+    color: var(--tertiary-color);
+}
+.section__cta--paragraph {
+    color: var(--paragraph-color);
+}
+
+
+.cta--card {
+    background-color: var(--secondary-color);
+    box-shadow: 0 1rem 3.5rem rgba(0, 0, 0, 0.2);
+    min-width: 25rem;
+    border-radius: 1rem;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+}
+
+.cta--card__image {
+    width: 100%;
+    position: relative;
+}
+.cta--card__image img {
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    width: 100%;
+}
+.cta--card__image::after {
+    content: '';
+    background-color: var(--tertiary-color);
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    opacity: 0.5;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.cta--card__description {
+    text-align: center;
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.cta--card__title {
+    color: var(--white-color);
+}
+.cta--card__title span {
+    color: var(--tertiary-color);
+}
+
+.cta--card__paragraph {
+    color: var(--paragraph-color);
+}
+
+.cta--card__statistics {
+    color: var(--white-color);
+    display: flex;
+    flex-direction: column;
+}
+.cta--card__statistics--item {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+.cta--card__statistics--number {
+    color: var(--white-color);
+    font-size: 3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 0;
+}
+.cta--card__statistics--label {
+    color: var(--paragraph-color);
+    text-transform: uppercase;
+}
+
+@media only screen and (min-width: 61.25em) {
+    .section__cta {
+        padding: 12rem 3.5rem;
+    }
+    
+    .cta--card {
+        width: 100%;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+    }
+    
+    .cta--card__image {
+        position: relative;
+        width: 45%;
+    }
+    .cta--card__image img {
+        object-fit: cover;
+        border-top-right-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+        height: 100%;
+    }
+    .cta--card__image::after {
+        border-top-left-radius: 0;
+        border-top-right-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+    }
+    
+    .cta--card__description {
+        text-align: left;
+        padding: 7.5rem;
+        width: 45%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .cta--card__title {
+        font-size: 3.5rem !important;
+        line-height: 4.5rem;
+    }
+    .cta--card__paragraph {
+        font-size: 1.5rem !important;
+    }
+    
+    .cta--card__statistics {
+        margin-top: 3.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        gap: 3.5rem;
+    }
+    .cta--card__statistics--number {
+        font-size: 2.5rem;
+    }
+}

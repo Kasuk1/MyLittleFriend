@@ -1,0 +1,22 @@
+.formulario-service-request {
+    background-color: var(--primary-color);
+    padding: 13rem 3rem;
+    padding-top: 18rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.service-request-form {
+    max-width: 40rem;
+    min-width: 20rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.service-request-form .btn {
+    max-width: 20rem;
+    align-self: flex-start;
+}

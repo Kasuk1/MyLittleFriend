@@ -1,226 +1,192 @@
-import { Form, Input, Button, Checkbox, Upload } from 'antd';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { Form, Input, Button, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { Row, Col } from 'antd';
-import { beforeUpload, getBase64 } from '../../../util/functions/UploadImage';
-import { useState } from 'react';
+import ReCAPTCHA from "react-google-recaptcha";
 
+import { resetUserMethodsMessage, selectSignUpState, signUp } from '../../../store/userSlice/user.slice';
 import "./RegistroFormulario.css";
+import { SpinLoading } from '../../loading/SpinLoading/SpinLoading';
 
 export const RegistroFormulario = () => {
-    const [state, setState] = useState({
-        loading: false,
-    });
-
-    /* UPLOAD IMAGE */
-    const handleChange = info => {
-        if (info.file.status === 'uploading') {
-            setState({ loading: true });
-            return;
-        }
-        if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            getBase64(info.file.originFileObj, imageUrl =>
-                setState({
-                    imageUrl,
-                    loading: false,
-                }),
-            );
-        }
-    };
-
-    const { loading, imageUrl } = state;
-    const uploadButton = (
-        <div>
-            {loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div style={{ marginTop: 8 }}>Upload</div>
-        </div>
-    );
-    /* UPLOAD IMAGE */
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { loading, message, status } = useSelector(selectSignUpState);
 
     /* FORM VALIDATIONS */
     const onFinish = (values) => {
-        console.log('Success:', values);
-    };
-
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+        let avatar_url;
+        if (values.avatar_url) {
+            if (values.avatar_url.status !== 'removed') {
+                avatar_url = values.avatar_url;
+            }
+        }
+        const data = {
+            ...values,
+            avatar_url
+        };
+        console.log(data)
+        dispatch(signUp(data));
     };
     /* FORM VALIDATIONS */
 
-    /* Responsiveness */
-    const tailFormItemLayout = {
-        wrapperCol: {
-            xs: {
-                span: 24,
-                offset: 0,
-            },
-            sm: {
-                span: 16,
-                offset: 8,
-            },
-        },
-    };
-    /* Responsiveness */
+    useEffect(() => {
+        if (status === 'OK') {
+            setTimeout(() => {
+                dispatch(resetUserMethodsMessage('signUpState'));
+                navigate('/login');
+            }, 3500)
+        }
+    }, [dispatch, status, navigate]);
 
     const normFile = (e) => {
-        console.log('Upload event:', e);
         if (Array.isArray(e)) {
             return e;
         }
-        return e && e.fileList;
+        return e && e.file;
     };
 
     return (
-        <Row align="center" className="formulario-registro">
-            <Col span={18} lg={6}>
-                <Form
-                    name="basic"
-                    labelCol={{
-                        span: 8,
-                    }}
-                    wrapperCol={{
-                        span: 16,
-                    }}
-                    initialValues={{
-                        remember: true,
-                    }}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    autoComplete="off"
+        <div className="formulario-register">
+            <div className='text-align-center mb-10'>
+                <h1 className="heading--1 color-tertiary">Registrarse es sencillo!</h1>
+                <div className="horizonal-line mb-2">
+                    <i className="fas fa-bone horizontal-line--icon"></i>
+                </div>
+                <p className='paragraph color-paragraph'>Sé parte de una excelente comunidad. Estas a solo un par de pasos.</p>
+            </div>
+
+            <Form
+                className='register-form position-relative'
+                name="user-register"
+                initialValues={{
+                    remember: true,
+                }}
+                onFinish={onFinish}
+                autoComplete="off"
+            >
+                <Form.Item
+                    name="full_name"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Porfavor, coloque su nombre!',
+                        },
+                        {
+                            min: 3,
+                            message: 'Porfavor, su nombre debe tener 2 caracteres como mínimo'
+                        }
+                    ]}
                 >
-                    <Form.Item
-                        label="Nombres"
-                        name="name"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Porfavor, coloque un nombre!',
+                    <Input placeholder="Nombre" />
+                </Form.Item>
+                <Form.Item
+                    name="email"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Porfavor, coloque su email!',
+                        },
+                    ]}
+                >
+                    <Input placeholder="Correo electrónico" />
+                </Form.Item>
+                <Form.Item
+                    name="address"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Porfavor, coloque su dirección!',
+                        },
+                    ]}
+                >
+                    <Input placeholder='Dirección' />
+                </Form.Item>
+                <Form.Item
+                    name="password"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Porfavor, ingrese su contraseña!',
+                        },
+                        {
+                            min: 8,
+                            message: 'Se requiere 8 caracteres como mínimo!',
+                        }
+                    ]}
+                    hasFeedback
+                >
+                    <Input.Password placeholder='Contraseña' />
+                </Form.Item>
+                <Form.Item
+                    name="confirm_password"
+                    dependencies={['password']}
+                    hasFeedback
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Porfavor, confirme su contraseña!',
+                        },
+                        ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                if (!value || getFieldValue('password') === value) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(new Error('Las contraseñas no coinciden!'));
                             },
-                        ]}
+                        }),
+                    ]}
+                >
+                    <Input.Password placeholder='Confirmar Contraseña' />
+                </Form.Item>
+                <Form.Item
+                    name="avatar_url"
+                    valuePropName="file"
+                    getValueFromEvent={normFile}
+                >
+                    <Upload
+                        listType="picture"
+                        maxCount={1}
+                        accept=".png,.jpeg,.jpg"
+                        beforeUpload={(file) => {
+                            return false;
+                        }}
                     >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Apellidos"
-                        name="lastname"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Porfavor, coloque un apellido!',
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Email"
-                        name="email"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Porfavor, coloque su email!',
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Dirección"
-                        name="address"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Porfavor, coloque su dirección!',
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Contraseña"
-                        name="password"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Porfavor, ingrese su contraseña!',
-                            },
-                        ]}
-                        hasFeedback
-                    >
-                        <Input.Password />
-                    </Form.Item>
-                    <Form.Item
-                        label="Confirmar Contraseña"
-                        name="confirm"
-                        dependencies={['password']}
-                        hasFeedback
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Porfavor, confirma tu contraseña!',
-                            },
-                            ({ getFieldValue }) => ({
-                                validator(_, value) {
-                                    if (!value || getFieldValue('password') === value) {
-                                        return Promise.resolve();
-                                    }
-                                    return Promise.reject(new Error('Las contraseñas no coinciden!'));
-                                },
-                            }),
-                        ]}
-                    >
-                        <Input.Password />
-                    </Form.Item>
-                    <Form.Item
-                        label="Subir foto"
-                        name="avatar"
-                    >
-                        <Upload
-                            name="avatar"
-                            listType="picture-card"
-                            className="avatar-uploader"
-                            showUploadList={false}
-                            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                            beforeUpload={beforeUpload}
-                            onChange={handleChange}
-                        >
-                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-                        </Upload>
-                    </Form.Item>
-                    <Form.Item
-                        name="upload"
-                        label="Upload"
-                        valuePropName="fileList"
-                        getValueFromEvent={normFile}
-                        extra=""
-                    >
-                        <Upload name="logo" action="/upload.do" listType="picture">
-                            <Button icon={<UploadOutlined />}>Click to upload</Button>
-                        </Upload>
-                    </Form.Item>
-                    <Form.Item
-                        name="norobot"
-                        valuePropName="checked"
-                        rules={[
-                            {
-                                validator: (_, value) =>
-                                    value ? Promise.resolve() : Promise.reject(new Error('Debe marcar esta casilla')),
-                            },
-                        ]}
-                        {...tailFormItemLayout}
-                    >
-                        <Checkbox>
-                            No soy un robot
-                        </Checkbox>
-                    </Form.Item>
-                    <Form.Item {...tailFormItemLayout}>
-                        <Button type="primary" htmlType="submit">
-                            Registrar
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </Col>
-        </Row>
+                        <Button icon={<UploadOutlined />}>Subir foto de perfil</Button>
+                    </Upload>
+                </Form.Item>
+
+                {loading ?
+                    (<SpinLoading text='Registrando usuario 🤖' />)
+                    :
+                    message &&
+                    (<p className='error-message mb-2'>{message}</p>)
+                }
+
+                <Form.Item
+                    name="norobot"
+                    valuePropName="checked"
+                    rules={[
+                        {
+                            validator: (_, value) =>
+                                value ? Promise.resolve() : Promise.reject(new Error('Porfavor validar el captcha!')),
+                        },
+                    ]}
+                >
+                    <ReCAPTCHA
+                        sitekey={process.env.REACT_APP_SITE_KEY_CAPTCHA}
+                        theme='light'
+                    />
+                </Form.Item>
+
+                <div className='register-form__actions'>
+                    <button className="btn btn--secondary" type='submit'>
+                        Registrar
+                    </button>
+                    <Link className='link-color-tertiary' to="/login">o Inicia sesión!</Link>
+                </div>
+            </Form>
+        </div>
     )
 }

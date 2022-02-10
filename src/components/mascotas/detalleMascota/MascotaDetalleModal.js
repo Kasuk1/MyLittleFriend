@@ -1,36 +1,33 @@
-import { Button, Modal } from 'antd'
-import React, { useState } from 'react'
+import React from 'react';
+import { Modal } from 'antd'
+import './MascotaDetalleModal.css';
 
-export const MascotaDetalleModal = ({ nameButton, title, detalle }) => {
-    const [isModalVisible, setIsModalVisible] = useState(false);
+export const MascotaDetalleModal = ({ nameButton, detalle }) => {
 
-    const showModal = () => {
-        setIsModalVisible(true);
-    };
-
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
+    const info = () => {
+        Modal.info({
+            title: 'Detalle de Servicio',
+            className: 'modal--info',
+            content: (
+                <div className='display-flex flex-column gap-2'>
+                    <h3 className='heading--4'>Receta/Medicación</h3>
+                    <ul className='display-flex flex-column gap-1'>
+                        {detalle?.recipe?.map(({ _id, name, detail }) => (
+                            <li key={_id}>
+                                <span style={{ fontWeight: 'bold' }}>{name}</span> - {detail}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )
+        });
+    }
 
     return (
         <>
-            <Button type="primary" onClick={showModal}>
+            <button className="btn btn--tertiary" onClick={info}>
                 {nameButton}
-            </Button>
-            <Modal title={title} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <h3>Fecha</h3>
-                <p>{detalle.date}</p>
-                <h3>Veterinaria</h3>
-                <p>{detalle.vet}</p>
-                <h3>Descripción</h3>
-                <p>{detalle.description}</p>
-                <h3>Medicamentos</h3>
-                <ul>{detalle.medication.map(({ id, name, dose }) => <li key={id}>{name} - {dose}</li>)}</ul>
-            </Modal>
+            </button>
         </>
     )
 }

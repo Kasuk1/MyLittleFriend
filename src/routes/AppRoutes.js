@@ -1,30 +1,58 @@
-import { Layout } from 'antd';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HomeGeneral } from '../components/home/general/HomeGeneral';
-import { LoginFormulario } from '../components/login/formularios/LoginFormulario';
-import { MascotaDetalle } from '../components/mascotas/detalleMascota/MascotaDetalle';
-import { MascotaLista } from '../components/mascotas/listaMascotas/MascotaLista';
+import { FooterComponent } from '../components/globales/footer/Footer';
+import { Navbar } from '../components/globales/navbar/Navbar';
 import { RegistroFormulario } from '../components/registro/formularios/RegistroFormulario';
-
-const { Header, Footer, Content } = Layout;
+import { LoginFormulario } from '../components/login/formularios/LoginFormulario';
+import { ServiciosLista } from '../components/servicios/listaServicios/ServiciosLista';
+import { VeterinariasLista } from '../components/veterinarias/listaVeterinarias/VeterinariasLista';
+import { PrivateRoutes } from './PrivateRoutes';
+import { PublicRoutes } from './PublicRoutes';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { logout } from '../store/userSlice/user.slice';
 
 export const AppRoutes = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (window.localStorage.getItem('tokenInvalid')) {
+            dispatch(logout());
+            window.localStorage.clear();
+        }
+    }, [dispatch]);
+
     return (
         <BrowserRouter>
-            <Layout>
-                <Header>Header</Header>
-                <Content>
-                    <Routes>
-                        <Route path="/" element={<HomeGeneral />}></Route>
-                        <Route path="/login" element={<LoginFormulario />}></Route>
-                        <Route path="/registro" element={<RegistroFormulario />}></Route>
-                        <Route path="/mascotas" element={<MascotaLista />}></Route>
-                        <Route path="/mascota/:mascotaId" element={<MascotaDetalle />}></Route>
-                        <Route path="/*" element={<HomeGeneral />}></Route>
-                    </Routes>
-                </Content>
-                <Footer>Footer</Footer>
-            </Layout>
+            <header>
+                <Navbar />
+            </header>
+            <main>
+                <Routes>
+                    <Route path='/login' element={
+                        <PublicRoutes>
+                            <LoginFormulario />
+                        </PublicRoutes>
+                    }
+                    />
+                    <Route path='/login/:tokenActivateUser' element={<LoginFormulario />} />
+                    <Route path='/register' element={
+                        <PublicRoutes>
+                            <RegistroFormulario />
+                        </PublicRoutes>
+                    }
+                    />
+
+                    <Route path='/*' element={<PrivateRoutes />} />
+
+                    <Route path="/services" element={<ServiciosLista />}></Route>
+                    <Route path="/veterinaries" element={<VeterinariasLista />}></Route>
+                    <Route path="/" element={<HomeGeneral />}></Route>
+                </Routes>
+            </main>
+            <footer>
+                <FooterComponent />
+            </footer>
         </BrowserRouter>
     )
 }

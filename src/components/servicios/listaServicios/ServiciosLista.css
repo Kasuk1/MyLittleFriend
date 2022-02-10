@@ -1,0 +1,29 @@
+.section__services--container {
+    background-color: var(--primary-color);
+}
+
+.section__services {
+    max-width: 140rem;
+    padding: 13rem 3.5rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10rem;
+}
+
+.section__services--headers {
+    max-width: 80rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content:space-between;
+}
+
+.section__services--list {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}

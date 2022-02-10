@@ -1,0 +1,18 @@
+.card-list {
+    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+@media only screen and (min-width: 64em) {
+    .card-list {
+        min-width: 36rem;
+        overflow: hidden;
+        padding: 0.5rem 0;
+        flex-direction: column;
+        align-items:center;
+    }
+}

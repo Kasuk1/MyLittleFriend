@@ -1,0 +1,50 @@
+.pet-detail__container {
+    background-color: var(--primary-color);
+}
+
+.pet-detail {
+    max-width: 140rem;
+    margin: 0 auto;
+    padding: 13rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.pet-detail .pet-card {
+    cursor: default;
+}
+
+.pet-detail .pet-card:hover {
+    transform: translateY(0);
+}
+
+.pet-detail__info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.modal__container {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+
+.modal {
+    background-color: var(--white-color);
+    border-radius: 1rem;
+    padding: 5rem 4rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.modal__question {
+    font-size: 2.5rem;
+    font-weight: 600;
+}
