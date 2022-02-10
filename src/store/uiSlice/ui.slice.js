@@ -1,19 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-
-}
-
 export const uiSlice = createSlice({
     name: 'ui',
-    initialState,
-    reducers: {
-        setButton(state) {
-
-        }
+    initialState: {
     },
+    reducers: {
+    }
 })
 
-export const { setButton } = uiSlice.actions;
+export const selectUiState = (state) => state.ui;
 
 export default uiSlice.reducer;

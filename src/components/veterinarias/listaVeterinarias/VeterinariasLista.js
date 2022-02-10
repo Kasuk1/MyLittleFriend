@@ -1,8 +1,20 @@
-import { veterinarias } from "../../../util/data/veterinarias";
-import './VeterinariasLista.css';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { Veterinaria } from "../veterinaria/Veterinaria";
 
+import { getVeterinaries, selectGetVeterinariesState, selectVeterinaries } from '../../../store/veterinarySlice/veterinary.slice';
+import './VeterinariasLista.css';
+import { CardListLoading } from '../../loading/CardListLoading/CardListLoading';
+
 export const VeterinariasLista = () => {
+  const dispatch = useDispatch();
+  const veterinaries = useSelector(selectVeterinaries);
+  const { loading, message } = useSelector(selectGetVeterinariesState);
+
+  useEffect(() => {
+    dispatch(getVeterinaries());
+  }, [dispatch]);
 
   return (
     <div className='section__veterinaries--container'>
@@ -20,10 +32,28 @@ export const VeterinariasLista = () => {
             que ofrecen diversa cantidad de servicios, !Averigua cual te conviene¡.
           </p>
         </div>
-
-        <div className='section__veterinaries--list'>
-          {veterinarias.map((veterinaria) => <Veterinaria key={veterinaria.id} {...veterinaria} />)}
-        </div>
+        {
+          loading ?
+            (
+              <CardListLoading />
+            )
+            :
+            veterinaries &&
+            (
+              <div className='section__pets--list'>
+                {message && <p>{message}</p>}
+                {veterinaries?.map((veterinary) => (
+                  <Veterinaria key={veterinary._id} {...veterinary} />)
+                )}
+                {!veterinaries.length && (
+                  <h2 className='paragraph color-paragraph opacity-50'>
+                    Aún no hay veterinarias registradas 🙄.
+                    Trataremos de revertir esto lo mas pronto posible 😁.
+                  </h2>
+                )}
+              </div>
+            )
+        }
       </section>
     </div>
   );

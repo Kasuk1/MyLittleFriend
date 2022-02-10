@@ -1,23 +1,51 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Select, DatePicker, Upload, } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
+
+import { SpinLoading } from "../../loading/SpinLoading/SpinLoading";
+import { ButtonRegresar } from "../../globales/buttons/ButtonRegresar/ButtonRegresar";
+import { selectUser } from "../../../store/userSlice/user.slice";
+import { registerPet, resetPetMethodsMessage, selectRegisterPetState } from "../../../store/petSlice/pet.slice";
 import './MascotaRegistro.css';
 
 export const MascotaRegistro = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { id: owner } = useSelector(selectUser);
+  const { loading, message, status } = useSelector(selectRegisterPetState);
 
-  const onFinish = (values) => {
-    console.log(values);
+  const onFinish = async (values) => {
+    let avatar_url;
+    if (values.avatar_url) {
+      if (values.avatar_url.status !== 'removed') {
+        avatar_url = values.avatar_url;
+      }
+    }
+    const data = {
+      ...values,
+      birthdate: values.birthdate && values.birthdate.toString(),
+      owner,
+      avatar_url
+    };
+    dispatch(registerPet(data));
   };
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+
+  useEffect(() => {
+    if (status === 'OK') {
+      setTimeout(() => {
+        dispatch(resetPetMethodsMessage('registerPetState'));
+        navigate(-1);
+      }, 2000);
+    }
+  }, [dispatch, status, navigate])
 
   const normFile = (e) => {
-    console.log('Upload event:', e);
     if (Array.isArray(e)) {
       return e;
     }
-    return e && e.fileList;
+    return e && e.file;
   };
 
   return (
@@ -34,13 +62,10 @@ export const MascotaRegistro = () => {
       </div>
 
       <Form
-        className='pet-register__form'
+        className='pet-register__form position-relative'
         name="pet-register"
-        initialValues={{
-          remember: true,
-        }}
+        initialValues={{}}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
         <Form.Item
@@ -56,6 +81,8 @@ export const MascotaRegistro = () => {
             <Select.Option value="dog">Perro</Select.Option>
             <Select.Option value="cat">Gato</Select.Option>
             <Select.Option value="rabbit">Conejo</Select.Option>
+            <Select.Option value="hamster">Hamster</Select.Option>
+            <Select.Option value="bird">Ave</Select.Option>
             <Select.Option value="other">Otro</Select.Option>
           </Select>
         </Form.Item>
@@ -79,16 +106,32 @@ export const MascotaRegistro = () => {
 
         <Form.Item
           name="avatar_url"
-          valuePropName="fileList"
+          valuePropName="file"
           getValueFromEvent={normFile}
-          extra=""
         >
-          <Upload name="logo" action="/upload.do" listType="picture">
-            <Button icon={<UploadOutlined />}>Subir foto de mascota</Button>
+          <Upload
+            listType="picture"
+            maxCount={1}
+            accept=".png,.jpeg,.jpg"
+            beforeUpload={(file) => {
+              return false;
+            }}
+          >
+            <Button icon={<UploadOutlined />}>Subir imagen de mascota</Button>
           </Upload>
         </Form.Item>
 
-        <button className='btn btn--secondary' type='submit'>Registrar</button>
+        {loading ?
+          (<SpinLoading text='Registrando mascota 🐾' />)
+          :
+          message &&
+          (<p className='error-message mb-2'>{message}</p>)
+        }
+
+        <div className='display-flex gap-2 flex-wrap justify-content-center mt-5'>
+          <button className='btn btn--secondary' type='submit'>Registrar</button>
+          <ButtonRegresar />
+        </div>
 
       </Form>
     </div>

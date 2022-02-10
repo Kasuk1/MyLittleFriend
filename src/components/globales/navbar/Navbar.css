@@ -105,13 +105,10 @@
     font-size: 2.2rem;
 }
 
-.navbar__item.divider, .navbar__item.show.divider {
-    display: none;
-}
-
 .user-avatar {
-    width: 3rem;
-    height: 3rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    object-fit: cover;
     border-radius: 50%;
 }
 
@@ -156,9 +153,5 @@
 @media only screen and (min-width: 67.5em) {
     .navbar__social {
         display: flex;
-    }
-
-    .navbar__item.divider, .navbar__item.show.divider {
-        display: block;
     }
 }
