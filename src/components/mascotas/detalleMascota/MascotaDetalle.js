@@ -37,7 +37,7 @@ export const MascotaDetalle = () => {
 
     const handleDeletePet = () => {
         dispatch(deletePetById(petId));
-        navigate(-1);
+        navigate('/pets');
     }
 
     return (
