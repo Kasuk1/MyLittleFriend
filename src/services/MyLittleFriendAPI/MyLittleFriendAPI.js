@@ -43,6 +43,18 @@ export const MyLittleFriendAPI = {
         return json;
     },
 
+    async verifyEmail(tokenVerify) {
+        const response = await fetch(`${MLFURI}/auth/verify-email`, {
+            method: 'POST',
+            headers: headerPost,
+            body: JSON.stringify({
+                hash: tokenVerify
+            })
+        });
+        const json = await response.json();
+        return json;
+    },
+
     async signIn(data) {
         const response = await fetch(`${MLFURI}/auth/login`, {
             method: 'POST',

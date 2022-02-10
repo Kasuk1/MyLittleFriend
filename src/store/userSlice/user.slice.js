@@ -7,6 +7,11 @@ export const signUp = createAsyncThunk(
     (data) => MyLittleFriendAPI.signUp(data)
 );
 
+export const verifyEmail = createAsyncThunk(
+    'user/verifyEmail',
+    (tokenVerify) => MyLittleFriendAPI.verifyEmail(tokenVerify)
+)
+
 export const signIn = createAsyncThunk(
     'user/signIn',
     (data) => MyLittleFriendAPI.signIn(data)
@@ -28,6 +33,12 @@ export const userSlice = createSlice({
     initialState: {
         user: JSON.parse(window.localStorage.getItem('user')) || null,
         signUpState: {
+            loading: false,
+            error: false,
+            message: '',
+            status: ''
+        },
+        verifyEmailState: {
             loading: false,
             error: false,
             message: '',
@@ -103,7 +114,7 @@ export const userSlice = createSlice({
 
                     if (action.payload.status === 'Failed') {
                         state.user = null;
-                        state.signInState.message = 'Email o contraseña incorrectos. Porfavor intente otra vez 😔.';
+                        state.signInState.message = 'Su cuenta no ha sido verificada o email/contraseña incorrectos. Porfavor intente otra vez 😔.';
                         state.signInState.status = 'Failed'
                         return;
                     }
@@ -184,6 +195,31 @@ export const userSlice = createSlice({
                     state.getUserCardData.loading = false;
                     state.getUserCardData.error = true;
                 })
+
+                //* VerifyEmail Method Thunk */
+                .addCase(verifyEmail.pending, (state) => {
+                    state.verifyEmailState.loading = true;
+                    state.verifyEmailState.error = false;
+                })
+                .addCase(verifyEmail.fulfilled, (state, action) => {
+                    state.verifyEmailState.loading = false;
+                    state.verifyEmailState.error = false;
+
+                    if (action.payload.status === 'Failed') {
+                        state.verifyEmailState.status = 'Failed';
+                        state.verifyEmailState.message = 'Ocurrió un error al verificar tu cuenta 😔.';
+                    }
+
+                    if (action.payload.status === 'OK') {
+                        state.verifyEmailState.status = 'OK';
+                        state.verifyEmailState.message = 'Tu cuenta ha sido verificada 😊.';
+                    }
+                    console.log(action.payload)
+                })
+                .addCase(verifyEmail.rejected, (state) => {
+                    state.verifyEmailState.loading = false;
+                    state.verifyEmailState.error = true;
+                })
         }
 })
 
@@ -191,6 +227,7 @@ export const { logout, resetUserMethodsMessage } = userSlice.actions;
 
 export const selectUser = (state) => state.user.user;
 export const selectSignUpState = (state) => state.user.signUpState;
+export const selectEmailVerifyState = (state) => state.user.verifyEmailState;
 export const selectSignInState = (state) => state.user.signInState;
 export const selectGetPetsState = (state) => state.user.getPetsState;
 export const selectGetUserCardData = (state) => state.user.getUserCardData;
