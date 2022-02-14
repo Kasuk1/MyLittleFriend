@@ -27,7 +27,15 @@ export const MascotaEdit = () => {
                 navigate(`/pet/${petId}`);
             }, 2500);
         }
-    }, [dispatch, status, navigate, petId])
+    }, [dispatch, status, navigate, petId]);
+
+    useEffect(() => {
+        if (status === 'Failed') {
+            setTimeout(() => {
+                dispatch(resetPetMethodsMessage('updatePetState'));
+            }, 2500);
+        }
+    }, [dispatch, status]);
 
     const onFinish = async (values) => {
         let avatar_url;
